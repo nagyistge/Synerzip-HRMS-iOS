@@ -8,6 +8,12 @@ iPhone application for Synerzip's employee to access SynerzipHRMS (https://hrms.
 - Directory
 - Profile
 
+# Installation
+
+- npm install
+- Open SynerzipHRMS.xcodeproj in XCode
+- Build and Run in iPhone Simulator / Device
+
 
 
 
