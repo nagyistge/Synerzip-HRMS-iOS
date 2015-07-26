@@ -1,0 +1,210 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'react-native-communications' ]
+2 info using npm@2.12.1
+3 info using node@v0.12.7
+4 verbose node symlink /usr/local/bin/node
+5 verbose install initial load of /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/package.json
+6 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/moment/package.json
+7 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native/package.json
+8 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-autocomplete/package.json
+9 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-blur/package.json
+10 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-camera/package.json
+11 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-icons/package.json
+12 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-overlay/package.json
+13 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-side-menu/package.json
+14 verbose installManyTop reading scoped package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-tooltip/package.json
+15 info package.json moment@2.10.3 No license field.
+16 info package.json react-native-overlay@0.2.8 No license field.
+17 info package.json react-native-camera@0.3.3 No license field.
+18 info package.json react-native-icons@0.2.0 No license field.
+19 info package.json react-native-tooltip@0.1.5 No license field.
+20 verbose readDependencies loading dependencies from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/package.json
+21 silly cache add args [ 'react-native-communications', null ]
+22 verbose cache add spec react-native-communications
+23 silly cache add parsed spec { raw: 'react-native-communications',
+23 silly cache add   scope: null,
+23 silly cache add   name: 'react-native-communications',
+23 silly cache add   rawSpec: '',
+23 silly cache add   spec: '*',
+23 silly cache add   type: 'range' }
+24 silly addNamed react-native-communications@*
+25 verbose addNamed "*" is a valid semver range for react-native-communications
+26 silly addNameRange { name: 'react-native-communications',
+26 silly addNameRange   range: '*',
+26 silly addNameRange   hasData: false }
+27 silly mapToRegistry name react-native-communications
+28 silly mapToRegistry using default registry
+29 silly mapToRegistry registry https://registry.npmjs.org/
+30 silly mapToRegistry uri https://registry.npmjs.org/react-native-communications
+31 verbose addNameRange registry:https://registry.npmjs.org/react-native-communications not in flight; fetching
+32 verbose request uri https://registry.npmjs.org/react-native-communications
+33 verbose request no auth needed
+34 info attempt registry request try #1 at 16:55:47
+35 verbose request id 09d30df6b6d9e65e
+36 http request GET https://registry.npmjs.org/react-native-communications
+37 http 200 https://registry.npmjs.org/react-native-communications
+38 silly get cb [ 200,
+38 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+38 silly get     etag: '"CL4WJVZ5D0WKT72Z7K00UVUSM"',
+38 silly get     'content-type': 'application/json',
+38 silly get     'cache-control': 'max-age=60',
+38 silly get     'content-length': '10529',
+38 silly get     'accept-ranges': 'bytes',
+38 silly get     date: 'Sun, 26 Jul 2015 11:25:49 GMT',
+38 silly get     via: '1.1 varnish',
+38 silly get     age: '0',
+38 silly get     connection: 'keep-alive',
+38 silly get     'x-served-by': 'cache-sin6923-SIN',
+38 silly get     'x-cache': 'MISS',
+38 silly get     'x-cache-hits': '0',
+38 silly get     'x-timer': 'S1437909948.266881,VS0,VE1015',
+38 silly get     vary: 'Accept' } ]
+39 verbose get saving react-native-communications to /Users/synerzip/.npm/registry.npmjs.org/react-native-communications/.cache.json
+40 silly addNameRange number 2 { name: 'react-native-communications',
+40 silly addNameRange   range: '*',
+40 silly addNameRange   hasData: true }
+41 silly addNameRange versions [ 'react-native-communications',
+41 silly addNameRange   [ '0.0.1', '0.0.2', '0.0.3', '0.0.4' ] ]
+42 silly addNamed react-native-communications@0.0.4
+43 verbose addNamed "0.0.4" is a plain semver version for react-native-communications
+44 silly mapToRegistry name react-native-communications
+45 silly mapToRegistry using default registry
+46 silly mapToRegistry registry https://registry.npmjs.org/
+47 silly mapToRegistry uri https://registry.npmjs.org/react-native-communications
+48 verbose addRemoteTarball https://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz not in flight; adding
+49 verbose addRemoteTarball [ 'https://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz',
+49 verbose addRemoteTarball   'ac97d083a8e31e290725ff07e82df765ff88a04f' ]
+50 info retry fetch attempt 1 at 16:55:49
+51 info attempt registry request try #1 at 16:55:49
+52 http fetch GET https://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz
+53 http fetch 200 https://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz
+54 silly fetchAndShaCheck shasum ac97d083a8e31e290725ff07e82df765ff88a04f
+55 verbose addTmpTarball /var/folders/s0/0lftf8j5023cj3lw30x2nqnc0000gp/T/npm-48785-020ec33d/registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz not in flight; adding
+56 verbose addTmpTarball already have metadata; skipping unpack for react-native-communications@0.0.4
+57 silly cache afterAdd react-native-communications@0.0.4
+58 verbose afterAdd /Users/synerzip/.npm/react-native-communications/0.0.4/package/package.json not in flight; writing
+59 verbose afterAdd /Users/synerzip/.npm/react-native-communications/0.0.4/package/package.json written
+60 silly install resolved [ { name: 'react-native-communications',
+60 silly install resolved     version: '0.0.4',
+60 silly install resolved     description: 'Easily call, email, text or iMessage someone in React Native',
+60 silly install resolved     main: 'AKCommunications.js',
+60 silly install resolved     repository:
+60 silly install resolved      { type: 'git',
+60 silly install resolved        url: 'git+https://github.com/anarchicknight/react-native-communications.git' },
+60 silly install resolved     keywords:
+60 silly install resolved      [ 'react',
+60 silly install resolved        'native',
+60 silly install resolved        'react-native',
+60 silly install resolved        'email',
+60 silly install resolved        'phone',
+60 silly install resolved        'text',
+60 silly install resolved        'sms',
+60 silly install resolved        'iMessage',
+60 silly install resolved        'communications',
+60 silly install resolved        'ios',
+60 silly install resolved        'react-component' ],
+60 silly install resolved     peerDependencies: { 'react-native': '^0.4.1' },
+60 silly install resolved     author:
+60 silly install resolved      { name: 'Anarchic Knight',
+60 silly install resolved        email: 'anarchicknight@gmail.com',
+60 silly install resolved        url: 'http://www.anarchicknight.co.uk' },
+60 silly install resolved     license:
+60 silly install resolved      { type: 'MIT',
+60 silly install resolved        url: 'https://github.com/anarchicknight/react-native-communications/blob/master/LICENSE' },
+60 silly install resolved     bugs: { url: 'https://github.com/anarchicknight/react-native-communications/issues' },
+60 silly install resolved     homepage: 'https://github.com/anarchicknight/react-native-communications#readme',
+60 silly install resolved     gitHead: '2d3ec52d2e9e918b6f087b3f1f34d4f0d6cf9725',
+60 silly install resolved     _id: 'react-native-communications@0.0.4',
+60 silly install resolved     scripts: {},
+60 silly install resolved     _shasum: 'ac97d083a8e31e290725ff07e82df765ff88a04f',
+60 silly install resolved     _from: 'react-native-communications@*',
+60 silly install resolved     _npmVersion: '2.8.4',
+60 silly install resolved     _nodeVersion: '0.12.2',
+60 silly install resolved     _npmUser: { name: 'anarchicknight', email: 'anarchicknight@gmail.com' },
+60 silly install resolved     dist:
+60 silly install resolved      { shasum: 'ac97d083a8e31e290725ff07e82df765ff88a04f',
+60 silly install resolved        tarball: 'http://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz' },
+60 silly install resolved     maintainers: [ [Object] ],
+60 silly install resolved     directories: {},
+60 silly install resolved     _resolved: 'https://registry.npmjs.org/react-native-communications/-/react-native-communications-0.0.4.tgz' } ]
+61 info install react-native-communications@0.0.4 into /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS
+62 info installOne react-native-communications@0.0.4
+63 verbose installOne of react-native-communications to /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS not in flight; installing
+64 verbose lock using /Users/synerzip/.npm/_locks/react-native-communicati-7246859d02298405.lock for /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+65 silly install write writing react-native-communications 0.0.4 to /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+66 verbose unbuild node_modules/react-native-communications
+67 silly gentlyRm /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications is being purged from base /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS
+68 verbose gentlyRm don't care about contents; nuking /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+69 verbose tar unpack /Users/synerzip/.npm/react-native-communications/0.0.4/package.tgz
+70 verbose tar unpacking to /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+71 silly gentlyRm /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications is being purged
+72 verbose gentlyRm don't care about contents; nuking /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+73 silly gunzTarPerm modes [ '755', '644' ]
+74 silly gunzTarPerm extractEntry package.json
+75 silly gunzTarPerm extractEntry .npmignore
+76 silly gunzTarPerm extractEntry README.md
+77 silly gunzTarPerm extractEntry LICENSE
+78 silly gunzTarPerm extractEntry AKCommunications.js
+79 verbose write writing to /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications/package.json
+80 info preinstall react-native-communications@0.0.4
+81 verbose readDependencies loading dependencies from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications/package.json
+82 silly prepareForInstallMany adding react-native@^0.4.1 from react-native-communications peerDependencies
+83 warn peerDependencies The peer dependency react-native@^0.4.1 included from react-native-communications will no
+84 warn peerDependencies longer be automatically installed to fulfill the peerDependency
+85 warn peerDependencies in npm 3+. Your application will need to depend on it explicitly.
+86 verbose readDependencies loading dependencies from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications/package.json
+87 silly install resolved []
+88 verbose about to build /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+89 info build /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+90 info linkStuff react-native-communications@0.0.4
+91 silly linkStuff react-native-communications@0.0.4 has /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules as its parent node_modules
+92 verbose linkBins react-native-communications@0.0.4
+93 verbose linkMans react-native-communications@0.0.4
+94 verbose rebuildBundles react-native-communications@0.0.4
+95 info install react-native-communications@0.0.4
+96 info postinstall react-native-communications@0.0.4
+97 verbose readDependencies loading dependencies from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/package.json
+98 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/moment/package.json
+99 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native/package.json
+100 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-autocomplete/package.json
+101 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-blur/package.json
+102 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-camera/package.json
+103 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications/package.json
+104 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-icons/package.json
+105 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-overlay/package.json
+106 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-side-menu/package.json
+107 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-tooltip/package.json
+108 verbose targetResolver reading package data from /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/.bin/react-native-start/package.json
+109 verbose already installed skipping react-native@^0.4.1 /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS
+110 silly install resolved []
+111 verbose unlock done using /Users/synerzip/.npm/_locks/react-native-communicati-7246859d02298405.lock for /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/node_modules/react-native-communications
+112 verbose validateInstall loading /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS/package.json for validation
+113 verbose stack Error: The package react-native does not satisfy its siblings' peerDependencies requirements!
+113 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:125:32
+113 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:267:7
+113 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:142:5
+113 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+113 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+113 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+113 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+113 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+113 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:47:24)
+113 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-installed/read-installed.js:263:14
+114 verbose cwd /Users/synerzip/ReactNative/SynerzipHRMS/SynerzipHRMS
+115 error Darwin 14.4.0
+116 error argv "node" "/usr/local/bin/npm" "install" "react-native-communications"
+117 error node v0.12.7
+118 error npm  v2.12.1
+119 error code EPEERINVALID
+120 error peerinvalid The package react-native does not satisfy its siblings' peerDependencies requirements!
+120 error peerinvalid Peer react-native-blur@0.5.4 wants react-native@>= 0.4 || 0.5.0-rc1 || 0.6.0-rc
+120 error peerinvalid Peer react-native-camera@0.3.3 wants react-native@*
+120 error peerinvalid Peer react-native-icons@0.2.0 wants react-native@>=0.6.0 <1.0.0
+120 error peerinvalid Peer react-native-overlay@0.2.8 wants react-native@>=0.4.2 || 0.5.0-rc1 || 0.6.0-rc || 0.7.0-rc || 0.7.0-rc.2 || 0.8.0-rc
+120 error peerinvalid Peer react-native-side-menu@0.9.5 wants react-native@>= 0.7
+120 error peerinvalid Peer react-native-tooltip@0.1.5 wants react-native@>= 0.4 || 0.7.0-rc1
+120 error peerinvalid Peer react-native-communications@0.0.4 wants react-native@^0.4.1
+121 verbose exit [ 1, true ]
