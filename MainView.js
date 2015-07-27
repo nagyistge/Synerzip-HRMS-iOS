@@ -76,6 +76,17 @@ class MainView extends React.Component{
                 }}>
                 <ProfileScreen />
             </TabBarIOS.Item>
+            <TabBarIOS.Item
+                title="More"
+                icon={require('image!menu')}
+                selected={this.state.selectedTab === 'menu'}
+                onPress={() => {
+                    this.setState({
+                        selectedTab: 'menu',
+                    });
+                }}>
+                    <ProfileScreen />
+            </TabBarIOS.Item>
         </TabBarIOS>
         );
     }
