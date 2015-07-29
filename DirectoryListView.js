@@ -19,6 +19,7 @@ var {
     LinkingIOS
     } = React;
 var ActionSheetIOS = require('ActionSheetIOS');
+var AddressBook = require('react-native-addressbook');
 var BUTTONS = [
     'Add to Contact',
     'Call',
@@ -33,7 +34,7 @@ var dataList = [
         email:'yogesh.patel@synerzip.com',
         skype:'yogesh.patel17',
         empId:1111,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/20/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
     },
     {
         name:'Nidhi Harshad Shrikhande',
@@ -42,7 +43,7 @@ var dataList = [
         email:'nidhi@synerzip.com',
         skype:'nidhishrikhande',
         empId:1054,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/1/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/097/3d3/07a02ee.jpg'
     },
     {
         name:'Ashutosh Kumar',
@@ -51,7 +52,7 @@ var dataList = [
         email:'ashutosh@synerzip.com',
         skype:'ashutosh.kumar',
         empId:1362,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/5/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
     },
     {
         name:'Vrinda Phadke',
@@ -60,7 +61,7 @@ var dataList = [
         email:'vrinda.phadke@synerzip.com',
         skype:'vrinda.phadke',
         empId:1241,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/20/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
     },
     {
         name:'Vaibhav Patil',
@@ -69,7 +70,7 @@ var dataList = [
         email:'vaibhav.patil@synerzip.com',
         skype:'vaibhav.patil',
         empId:1054,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/1/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
     },
     {
         name:'Prashil Gote',
@@ -78,7 +79,7 @@ var dataList = [
         email:'prashil.gote@synerzip.com',
         skype:'prashil.gote',
         empId:1362,
-        imgPath:'https://hrms.synerzip.in/symfony/web/index.php/pim/viewPhoto/empNumber/5/from/empDir'
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
     }
 ];
 
@@ -140,6 +141,16 @@ class DirectoryListView extends React.Component{
                             LinkingIOS.openURL(url);
                         }
                     });
+                }else if(buttonIndex == 0){
+                        AddressBook.getContacts( (err, contacts) => {
+                            if(err && err.type === 'permissionDenied'){
+                            // x.x
+                        }
+                        else{
+                                console.log(contacts)
+                            }
+                        });
+
                 }
             });
     }
@@ -150,7 +161,7 @@ class DirectoryListView extends React.Component{
                 <View>
                     <View style={styles.container}>
                         <Image
-                            source={require('image!profile')}
+                            source={{uri: data.imgPath}}
                             style={styles.thumbnail}
                             />
                         <View style={styles.rightContainer}>
@@ -214,14 +225,14 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#FFFFFF',
     },
     rightContainer: {
         flex: 1,
     },
     thumbnail: {
-        width: 53,
-        height: 81,
+        width: 70,
+        height: 80,
     },
     name:{
         fontSize:15,

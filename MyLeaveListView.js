@@ -245,12 +245,15 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#FFFFFF',
         padding: 10
     },
     leaveRow:{
         flex: 1,
         flexDirection: 'row',
+        padding:3,
+        paddingRight:0,
+        paddingLeft:0
     },
     leaveDateBox:{
         flex:1,
@@ -283,7 +286,7 @@ var styles = StyleSheet.create({
     option:{
         backgroundColor:'#f44336',
         width:120,
-        height:55,
+        height:68,
         justifyContent: 'center',
         alignItems: 'center',
     },

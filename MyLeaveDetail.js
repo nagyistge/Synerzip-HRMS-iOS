@@ -22,6 +22,9 @@ var SceneNavBar = require('./SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var MyLeaveListView = require('./MyLeaveListView');
 
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
+
 
 
 class Menu extends React.Component{
@@ -64,7 +67,7 @@ class MyLeaveDetail extends React.Component{
     render(){
         var menu = <Menu navigator={navigator}/>;
         return (
-            <SideMenu ref="sideMenu"  menu={menu} touchToClose={true} disableGestures={true}>
+            <SideMenu openMenuOffset={screenWidth - 40} ref="sideMenu"  menu={menu} touchToClose={true} disableGestures={true}>
                 <View style={styles.container}>
                     <SceneNavBar title="My Leave" onRightClick={this.onRightClick.bind(this)} rightTitle="Apply"
                                  leftIcon={require('image!filter')}

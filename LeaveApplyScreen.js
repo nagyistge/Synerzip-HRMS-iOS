@@ -25,12 +25,14 @@ var SceneNavBar = require('./SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var NumberSelection = require('./NumberSelection');
 var Mask = require('./Mask');
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
 class Menu extends React.Component{
 
 
     render(){
         return (
-            <ScrollView style={styles.menu}>
+            <View style={styles.menu}>
                 <View style={styles.avatarContainer}>
                     <Image
                         style={styles.avatar}
@@ -42,7 +44,7 @@ class Menu extends React.Component{
 
                 <Text style={styles.item}>About</Text>
                 <Text style={styles.item}>Contacts</Text>
-            </ScrollView>
+            </View>
         );
     }
 }
@@ -100,12 +102,13 @@ class LeaveApplyScreen extends React.Component{
         this.setState({noOfDays:parseInt(number)});
     }
     onRightClick(){
-        //this.refs.sideMenu.left ? this.refs.sideMenu.closeMenu() : this.refs.sideMenu.openMenu()
-        this.setState({loading:true});
-        var self = this;
-        var interval = setInterval(function () {
-            clearInterval(interval);
-            self.props.navigator.pop();}, 1000);
+        this.refs.sideMenu.left ? this.refs.sideMenu.closeMenu() : this.refs.sideMenu.openMenu()
+
+        //this.setState({loading:true});
+        //var self = this;
+        //var interval = setInterval(function () {
+        //    clearInterval(interval);
+        //    self.props.navigator.pop();}, 1000);
 
     }
     onCancel(){
@@ -115,9 +118,11 @@ class LeaveApplyScreen extends React.Component{
         var menu = <Menu />
         //rightIcon={require('image!holidays')}
         return(
-            <SideMenu ref="sideMenu"  menu={menu} touchToClose={true} menuPosition='right' disableGestures={true}>
+            <SideMenu ref="sideMenu"  menu={menu} openMenuOffset={screenWidth - 60} touchToClose={true} menuPosition='right' disableGestures={true}>
             <View style={styles.container}>
-                <SceneNavBar title="Apply Leave" onLeftClick={this.onCancel.bind(this)} leftTitle="Cancel"
+                <SceneNavBar title="Apply Leave"
+                             backgroundColor="#FFFFFF"
+                             onLeftClick={this.onCancel.bind(this)} leftTitle="Cancel"
                              rightTitle="Apply"
                              onRightClick={this.onRightClick.bind(this)}/>
 
@@ -340,7 +345,11 @@ var styles = StyleSheet.create({
         width: window.width,
         height: window.height,
 
-        padding: 20
+        paddingLeft:60,
+        marginTop:20,
+        backgroundColor:'#000',
+        opacity:0.7
+
     },
     caption: {
         fontSize: 20,
@@ -361,6 +370,7 @@ var styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '300',
         paddingTop: 5,
+        color:'#FFFFFF'
     },
     slider: {
         height: 10,

@@ -105,15 +105,13 @@ class DirectoryScene extends React.Component {
         StatusBarIOS.setStyle('default');
         return (
             <View style={styles.container}>
-                <View style={styles.autocomplete}>
+
                     <AutoComplete onTyping={this.onTyping.bind(this)}
                                   onSelect={this.onSelect.bind(this)}
                                   suggestions={this.state.suggestions}/>
-                </View>
-                <View style={styles.listView}>
-                    <DirectoryListView />
-                </View>
-
+                    <View style={styles.listView}>
+                        <DirectoryListView />
+                    </View>
 
             </View>
 
@@ -133,7 +131,6 @@ var styles = StyleSheet.create({
         marginTop:30,
         flex: 1,
         flexDirection: 'column',
-
         backgroundColor: '#FFFFFF',
         padding:5,
         paddingTop: 10

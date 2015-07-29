@@ -34,7 +34,7 @@ class SceneNavBar extends Component{
         }
 
         return (
-        <View style={styles.container}>
+        <View style={[styles.container,{backgroundColor:this.props.backgroundColor}]}>
             <Text style={styles.title}>{this.props.title}</Text>
             <View style={styles.rightTitleBox} >
                 <TouchableOpacity onPress={this.props.onRightClick}>
@@ -66,7 +66,8 @@ var styles = StyleSheet.create({
         marginTop:20,
         flexDirection:'row',
         alignSelf:'stretch',
-        justifyContent:'center'
+        justifyContent:'center',
+
     },
     title:{
         alignSelf:'center',
