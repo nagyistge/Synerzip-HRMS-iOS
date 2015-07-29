@@ -34,7 +34,7 @@ class SceneNavBar extends Component{
         }
 
         return (
-        <View style={[styles.container,{backgroundColor:this.props.backgroundColor},{opacity:this.props.backOpacity}]}>
+        <View style={[styles.container,{backgroundColor:this.props.backgroundColor}]}>
             <Text style={styles.title}>{this.props.title}</Text>
             <View style={styles.rightTitleBox} >
                 <TouchableOpacity onPress={this.props.onRightClick}>

@@ -10,10 +10,15 @@ var {
     View,
     Text,
     StatusBarIOS,
-    TextInput
+    TextInput,
+    AlertIOS
     } = React;
 
 var SceneNavBar = require('./SceneNavBar');
+var AddressBook = require('react-native-addressbook');
+var Dimensions = require('Dimensions')
+var screenWidth = Dimensions.get('window').width
+
 class AddContactScene extends React.Component{
     constructor(props){
         super(props);
@@ -25,21 +30,31 @@ class AddContactScene extends React.Component{
 
         };
     }
-    onFirstNameChange(){
-        this.setState({firstName:this.refs.fname.value});
-    }
-    onLastNameChange(){
-        this.setState({lastName:this.refs.lname.value});
-    }
-    onMobileChange(){
-        this.setState({mobile:this.refs.mobile.value});
-    }
 
-    onEmailChange(){
-        this.setState({email:this.refs.email.value});
-    }
     onRightClick(){
-        console.log(this.props.empData);
+
+
+
+        var newPerson = {
+            lastName: this.state.lastName,
+            firstName: this.state.firstName,
+            emailAddresses: [{
+                label: "work",
+                email: this.state.email,
+            }],
+            phoneNumbers: [{
+                label: "mobile",
+                number: this.state.mobile,
+            }],
+        }
+        console.log(newPerson);
+        AddressBook.addContact(newPerson, (err) => {
+            console.log('NEW CONTACT', err, newPerson);
+
+        });
+        AlertIOS.alert('Saved Successfully');
+        this.props.navigator.pop();
+
     }
     onCancel(){
         this.props.navigator.pop();
@@ -48,6 +63,7 @@ class AddContactScene extends React.Component{
         //StatusBarIOS.setStyle('light-content');
         StatusBarIOS.setStyle('default');
         return (
+
             <View style={styles.container}>
                 <SceneNavBar title="Add Contact"
                     backgroundColor="#FFFFFF"
@@ -58,21 +74,22 @@ class AddContactScene extends React.Component{
                 <View style={styles.form}>
                     <View style={styles.flowRight}>
                         <TextInput style={styles.searchInput} placeholder='First Name'
-                        ref='fname' value={this.state.firstName} onChange={this.onFirstNameChange.bind(this)}/>
+                        ref='fname' value={this.state.firstName} onChangeText={(text) => this.setState({firstName:text})}/>
                     </View>
                     <View style={styles.flowRight}>
                         <TextInput style={styles.searchInput} placeholder='Last Name' ref='lname'
-                                value={this.state.lastName} onChange={this.onLastNameChange.bind(this)}/>
+                                value={this.state.lastName} onChangeText={(text) => this.setState({lastName:text})}/>
                     </View>
                     <View style={styles.flowRight}>
                         <TextInput style={styles.searchInput} placeholder='Mobile' ref='mobile'
-                        value={this.state.mobile} onChange={this.onMobileChange.bind(this)}/>
+                        value={this.state.mobile} onChangeText={(text) => this.setState({mobile:text})}/>
                     </View>
                     <View style={styles.flowRight}>
                         <TextInput style={styles.searchInput} placeholder='Email' ref='email'
-                        value={this.state.email} onChange={this.onEmailChange.bind(this)}/>
+                        value={this.state.email} onChangeText={(text) => this.setState({email:text})}/>
                     </View>
                 </View>
+
             </View>
         );
     }
@@ -80,12 +97,9 @@ class AddContactScene extends React.Component{
 
 var styles = StyleSheet.create({
     form:{
-
         backgroundColor:'#FFFFFF',
-        opacity:0.7,
         padding:10,
         alignItems:'stretch'
-
     },
     field:{
         alignSelf:'stretch'
@@ -93,10 +107,8 @@ var styles = StyleSheet.create({
 
     container: {
         backgroundColor:"#FFFFFF",
-        opacity:0.7,
         flex: 1,
         flexDirection: 'column',
-
     },
     flowRight: {
         flex:1,
@@ -116,6 +128,8 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         color: '#B5B1B1',
     },
+
+
 
 
 

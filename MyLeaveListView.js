@@ -159,7 +159,7 @@ class MyLeaveListView extends React.Component{
     }
 
     getCenter(data){
-        console.log("Data................."+data);
+
         var pendingStatus = null;
         if(data.status == 'pending'){
             pendingStatus = {
