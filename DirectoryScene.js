@@ -12,6 +12,7 @@ var {
     ScrollView,
     ActivityIndicatorIOS,
     TouchableHighlight,
+    Navigator,
     TouchableOpacity,
     Component,
     AlertIOS,
@@ -20,6 +21,7 @@ var {
 
 var AutoComplete = require('react-native-autocomplete');
 var DirectoryListView = require('./DirectoryListView');
+var AddContactScene = require('./AddContactScene');
 
 var staticSuggestionData = [
     {
@@ -101,19 +103,37 @@ class DirectoryScene extends React.Component {
         );
     }
 
+    _renderScene(route,navigator){
+        if(route.index == 0){
+            return (
+                <View style={styles.container}>
+
+                    <AutoComplete onTyping={this.onTyping.bind(this)}
+                    onSelect={this.onSelect.bind(this)}
+                    suggestions={this.state.suggestions}/>
+                    <View style={styles.listView}>
+                        <DirectoryListView navigator={navigator}/>
+                    </View>
+                </View>
+            );
+        }else if(route.index == 1){
+            return (
+                <AddContactScene navigator={navigator} empData = {route.passProps.empData} />
+            );
+        }
+    }
+
     render() {
         StatusBarIOS.setStyle('default');
         return (
-            <View style={styles.container}>
+            <Navigator
+                initialRoute={{name: 'Directory', index: 0}}
+                configureScene={(route) => Navigator.SceneConfigs.FloatFromBottom}
+                renderScene={(route, navigator) =>
+                                this. _renderScene(route,navigator)
+                            }
+                />
 
-                    <AutoComplete onTyping={this.onTyping.bind(this)}
-                                  onSelect={this.onSelect.bind(this)}
-                                  suggestions={this.state.suggestions}/>
-                    <View style={styles.listView}>
-                        <DirectoryListView />
-                    </View>
-
-            </View>
 
         );
     }
@@ -124,16 +144,15 @@ var styles = StyleSheet.create({
     listView:{
       flex:1,
       backgroundColor:'#f5f5f5',
-      marginTop:25,
+      marginTop:5,
     },
 
     container: {
-        marginTop:30,
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         padding:5,
-        paddingTop: 10
+        paddingTop: 30
     },
     autocomplete: {
         position:'absolute',

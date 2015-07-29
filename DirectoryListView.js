@@ -28,7 +28,8 @@ var BUTTONS = [
 var CANCEL_INDEX = 2;
 var dataList = [
     {
-        name:'Yogesh Patel',
+        fname:'Yogesh',
+        lname:'Patel',
         project:'FuelQuest',
         phone:'9960614174',
         email:'yogesh.patel@synerzip.com',
@@ -37,7 +38,8 @@ var dataList = [
         imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
     },
     {
-        name:'Nidhi Harshad Shrikhande',
+        fname:'Nidhi',
+        lname:'Harshad Shrikhande',
         project:'HR',
         phone:'9881255414',
         email:'nidhi@synerzip.com',
@@ -46,7 +48,8 @@ var dataList = [
         imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/097/3d3/07a02ee.jpg'
     },
     {
-        name:'Ashutosh Kumar',
+        fname:'Ashutosh',
+        lname:'Kumar',
         project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
         phone:'9881153955',
         email:'ashutosh@synerzip.com',
@@ -55,7 +58,8 @@ var dataList = [
         imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
     },
     {
-        name:'Vrinda Phadke',
+        fname:'Vrinda',
+        lname:'Phadke',
         project:'FuelQuest,QSI,StepOne',
         phone:'9767123421',
         email:'vrinda.phadke@synerzip.com',
@@ -64,7 +68,8 @@ var dataList = [
         imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
     },
     {
-        name:'Vaibhav Patil',
+        fname:'Vaibhav',
+        lname:'Patil',
         project:'FuelQuest',
         phone:'9881255414',
         email:'vaibhav.patil@synerzip.com',
@@ -73,7 +78,8 @@ var dataList = [
         imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
     },
     {
-        name:'Prashil Gote',
+        fname:'Prashil',
+        lname:'Gote',
         project:'FuelQuest',
         phone:'9881153955',
         email:'prashil.gote@synerzip.com',
@@ -142,14 +148,21 @@ class DirectoryListView extends React.Component{
                         }
                     });
                 }else if(buttonIndex == 0){
-                        AddressBook.getContacts( (err, contacts) => {
-                            if(err && err.type === 'permissionDenied'){
-                            // x.x
-                        }
-                        else{
-                                console.log(contacts)
+                        this.props.navigator.push({
+                            name: 'Add Contact ',
+                            index: 1,
+                            passProps:{
+                                empData:data
                             }
                         });
+                        //AddressBook.getContacts( (err, contacts) => {
+                        //    if(err && err.type === 'permissionDenied'){
+                        //    // x.x
+                        //}
+                        //else{
+                        //        console.log(contacts)
+                        //    }
+                        //});
 
                 }
             });
@@ -165,7 +178,7 @@ class DirectoryListView extends React.Component{
                             style={styles.thumbnail}
                             />
                         <View style={styles.rightContainer}>
-                            <Text style={styles.name}>{data.name}</Text>
+                            <Text style={styles.name}>{data.fname +' '+data.lname}</Text>
                             <View style={[{flex:1},{flexWrap:'nowrap'},{flexDirection:'row'}]}>
                                 <Text style={[styles.project,{flexWrap:'nowrap'}]}>{data.project}</Text>
                             </View>
