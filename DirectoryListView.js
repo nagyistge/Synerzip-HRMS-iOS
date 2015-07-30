@@ -20,6 +20,8 @@ var {
     } = React;
 var ActionSheetIOS = require('ActionSheetIOS');
 var AddressBook = require('react-native-addressbook');
+var Dimensions = require('Dimensions')
+var screenWidth = Dimensions.get('window').width
 var BUTTONS = [
     'Add to Contact',
     'Call',
@@ -111,7 +113,11 @@ class DirectoryListView extends React.Component{
         );
     }
     fetchData(){
-
+        console.log(this.props.searchText);
+        this.setState({
+            loaded: false,
+            dataSource: this.state.dataSource.cloneWithRows([]),
+        });
 
         var intervalObj = setInterval(()=>{
             this.setState({
@@ -155,14 +161,7 @@ class DirectoryListView extends React.Component{
                                 empData:data
                             }
                         });
-                        //AddressBook.getContacts( (err, contacts) => {
-                        //    if(err && err.type === 'permissionDenied'){
-                        //    // x.x
-                        //}
-                        //else{
-                        //        console.log(contacts)
-                        //    }
-                        //});
+
 
                 }
             });
@@ -206,7 +205,11 @@ class DirectoryListView extends React.Component{
 
     }
     render (){
+        if(this.state.loadData){
+            this.fetchData.bind(this);
+        }
         if (!this.state.loaded) {
+
             return this.renderLoadingView();
         }
 

@@ -8,6 +8,7 @@ var {
     StyleSheet,
     Text,
     ListView,
+    TextInput,
     View,
     ScrollView,
     ActivityIndicatorIOS,
@@ -22,6 +23,8 @@ var {
 var AutoComplete = require('react-native-autocomplete');
 var DirectoryListView = require('./DirectoryListView');
 var AddContactScene = require('./AddContactScene');
+var Dimensions = require('Dimensions')
+var screenWidth = Dimensions.get('window').width
 
 var staticSuggestionData = [
     {
@@ -65,6 +68,14 @@ var staticSuggestionData = [
         name: 'Rohit Ghatol'
     },
     {
+        empid: 10,
+        name: 'Rahul Ghatol'
+    },
+    {
+        empid: 10,
+        name: 'Rahul Tarfdar'
+    },
+    {
         empid: 11,
         name: 'Vinayak Joglekar'
     },
@@ -78,7 +89,11 @@ class DirectoryScene extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            suggestions: []
+            suggestions: [],
+            searchText:'',
+            showOptions:false,
+            loadData:false
+
         }
     }
     componentDidMount(){
@@ -91,11 +106,27 @@ class DirectoryScene extends React.Component {
             return employee.name;
         });
 
-        this.setState({
-            suggestions: employees
+       return employees;
+    }
+    onChangeText(text){
+        var optionPop = true;
+        if(this.state.searchText != '' && text == ''){
+            optionPop = false;
+        }
+        this.setState({searchText:text,showOptions:optionPop})
+    }
+    onEndEditing(){
+
+    }
+    selectOption(employee,navigator){
+
+        this.setState({searchText:employee,showOptions:false,loadData:true});
+       // this.forceUpdate();
+        navigator.push({
+            name: 'Directory',
+            index: 0
         });
     }
-
     onSelect(event) {
         AlertIOS.alert(
             'You choosed',
@@ -105,15 +136,42 @@ class DirectoryScene extends React.Component {
 
     _renderScene(route,navigator){
         if(route.index == 0){
+            var options = [];
+            if(this.state.searchText != ""){
+                var employees = this.onTyping(this.state.searchText);
+                options = employees.map((employee)=>{
+                    return(
+                        <TouchableHighlight underlayColor='#e0e0e0' onPress={this.selectOption.bind(this,employee,navigator)}>
+                        <Text style={styles.optionsText}>{employee}</Text>
+                        </TouchableHighlight>
+
+                    );
+                });
+            }
+
+
             return (
                 <View style={styles.container}>
+                    <TextInput style={styles.searchField} placeholder='Search...'
+                        onChangeText={this.onChangeText.bind(this)}
+                        value={this.state.searchText} clearButtonMode="always"
+                        returnKeyType="go" onEndEditing={this.onEndEditing.bind(this)}/>
 
-                    <AutoComplete onTyping={this.onTyping.bind(this)}
-                    onSelect={this.onSelect.bind(this)}
-                    suggestions={this.state.suggestions}/>
-                    <View style={styles.listView}>
-                        <DirectoryListView navigator={navigator}/>
+
+                    <View style={styles.listView} ref='list'>
+                        <DirectoryListView navigator={navigator}
+                            searchText={this.state.searchText}
+                            loadData={this.state.loadData}/>
                     </View>
+                    {
+                        this.state.showOptions ?
+                    <ScrollView style={styles.optionBox} scrollEventThrottle={200}
+                        contentInset={{top: -20}}>
+                    {options}
+                    </ScrollView>
+                    :
+                    <Text>{''}</Text>
+                    }
                 </View>
             );
         }else if(route.index == 1){
@@ -144,7 +202,7 @@ var styles = StyleSheet.create({
     listView:{
       flex:1,
       backgroundColor:'#f5f5f5',
-      marginTop:5,
+      marginTop:10,
     },
 
     container: {
@@ -160,6 +218,39 @@ var styles = StyleSheet.create({
         left:10,
         height: 30
     },
+    searchField:{
+        borderWidth:1,
+        borderColor:"#cfd8dc",
+        height: 30,
+        paddingLeft:5,
+        color:"#b0bec5"
+    },
+    options:{
+        padding:5,
+        flexDirection:'row',
+        borderBottomColor:'#b0bec5',
+        borderTopColor:"#FFFFFF",
+        borderLeftColor:"#FFFFFF",
+        borderRightColor:"#FFFFFF",
+        borderWidth:1,
+        height:30
+    },
+    optionsText:{
+        color:'#0288d1',
+        fontSize:14,
+        padding:10
+    },
+    optionBox:{
+        position:'absolute',
+        width:screenWidth-10,
+        top:60,
+        left:5,
+        height: 120,
+        borderWidth:1,
+        borderColor:"#b0bec5",
+        borderTopColor:"#FFFFFF",
+
+    }
 
 
 });
