@@ -92,7 +92,10 @@ class MyLeaveDetail extends React.Component{
                         </View>
                     </View>
                     <View style={styles.listView}>
-                        <MyLeaveListView />
+                        <MyLeaveListView myLeavListData={this.props.myLeavListData}
+                                         myLeaveListLoaded={this.props.myLeaveListLoaded}
+                                         loadMoreData={this.props.loadMoreData}
+                                         cancelLeave={this.props.cancelLeave}/>
                     </View>
 
                 </View>
@@ -107,7 +110,7 @@ var styles = StyleSheet.create({
     },
     listView:{
         flex:1,
-        backgroundColor:'red'
+        backgroundColor:'transparent'
     },
     leaveBalanceBox:{
         backgroundColor:'#37474f',

@@ -219,11 +219,12 @@ class LeaveApplyScreen extends React.Component{
 var styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:'#FFFFFF'
     },
     leaveBalanceBox:{
         backgroundColor:'#37474f',
         height:80,
-        marginTop:5,
+
         padding:20,
         paddingTop:15
     },
@@ -347,8 +348,8 @@ var styles = StyleSheet.create({
 
         paddingLeft:60,
         marginTop:20,
-        backgroundColor:'#000',
-        opacity:0.7
+        marginBottom:45,
+        backgroundColor:'#263238'
 
     },
     caption: {

@@ -13,168 +13,430 @@ var {
     ScrollView,
     ActivityIndicatorIOS,
     TouchableHighlight,
-    Navigator,
     TouchableOpacity,
+    Navigator,
     Component,
     AlertIOS,
-    StatusBarIOS
+    StatusBarIOS,
+    Image
     } = React;
 
-var AutoComplete = require('react-native-autocomplete');
-var DirectoryListView = require('./DirectoryListView');
-var AddContactScene = require('./AddContactScene');
-var Dimensions = require('Dimensions')
-var screenWidth = Dimensions.get('window').width
 
-var staticSuggestionData = [
+
+
+var SceneNavBar = require('./SceneNavBar');
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
+
+var dataList = [
     {
-        empid: 111,
-        name: 'Yogesh Patel'
+        fname:'Yogesh',
+        lname:'Patel',
+        project:'FuelQuest',
+        phone:'9960614174',
+        email:'yogesh.patel@synerzip.com',
+        skype:'yogesh.patel17',
+        empId:1111,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
     },
     {
-        empid: 2,
-        name: 'Rajesh Patel'
+        fname:'Nidhi',
+        lname:'Harshad Shrikhande',
+        project:'HR',
+        phone:'9881255414',
+        email:'nidhi@synerzip.com',
+        skype:'nidhishrikhande',
+        empId:1054,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/097/3d3/07a02ee.jpg'
     },
     {
-        empid: 3,
-        name: 'Nidhi Sharma'
+        fname:'Ashutosh',
+        lname:'Kumar',
+        project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
+        phone:'9881153955',
+        email:'ashutosh@synerzip.com',
+        skype:'ashutosh.kumar',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
     },
     {
-        empid: 4,
-        name: 'ABC'
+        fname:'Vrinda',
+        lname:'Phadke',
+        project:'FuelQuest,QSI,StepOne',
+        phone:'9767123421',
+        email:'vrinda.phadke@synerzip.com',
+        skype:'vrinda.phadke',
+        empId:1241,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
     },
     {
-        empid: 5,
-        name: 'XYZ'
+        fname:'Vaibhav',
+        lname:'Patil',
+        project:'FuelQuest',
+        phone:'9881255414',
+        email:'vaibhav.patil@synerzip.com',
+        skype:'vaibhav.patil',
+        empId:1054,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
     },
     {
-        empid: 6,
-        name: 'Abhu'
+        fname:'Prashil',
+        lname:'Gote',
+        project:'FuelQuest',
+        phone:'9881153955',
+        email:'prashil.gote@synerzip.com',
+        skype:'prashil.gote',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
     },
     {
-        empid: 7,
-        name: 'Smita Sharma'
+        fname:'Ashutosh',
+        lname:'Kumar',
+        project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
+        phone:'9881153955',
+        email:'ashutosh@synerzip.com',
+        skype:'ashutosh.kumar',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
     },
     {
-        empid: 8,
-        name: 'Rajesh Sharma'
+        fname:'Vrinda',
+        lname:'Phadke',
+        project:'FuelQuest,QSI,StepOne',
+        phone:'9767123421',
+        email:'vrinda.phadke@synerzip.com',
+        skype:'vrinda.phadke',
+        empId:1241,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
     },
     {
-        empid: 9,
-        name: 'Ashutosh Kumar'
+        fname:'Vaibhav',
+        lname:'Patil',
+        project:'FuelQuest',
+        phone:'9881255414',
+        email:'vaibhav.patil@synerzip.com',
+        skype:'vaibhav.patil',
+        empId:1054,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
     },
     {
-        empid: 10,
-        name: 'Rohit Ghatol'
-    },
-    {
-        empid: 10,
-        name: 'Rahul Ghatol'
-    },
-    {
-        empid: 10,
-        name: 'Rahul Tarfdar'
-    },
-    {
-        empid: 11,
-        name: 'Vinayak Joglekar'
-    },
-    {
-        empid: 12,
-        name: 'Hemant Sharma'
-    },
+        fname:'Prashil',
+        lname:'Gote',
+        project:'FuelQuest',
+        phone:'9881153955',
+        email:'prashil.gote@synerzip.com',
+        skype:'prashil.gote',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
+    }
 ];
 
 class DirectoryScene extends React.Component {
     constructor(props) {
         super(props);
+        this.startIndex = 0;
+        this.searchField = null;
         this.state = {
-            suggestions: [],
             searchText:'',
-            showOptions:false,
-            loadData:false
-
+            directoryDataList:{
+                data:[],
+                totalRecordCount:0,
+                offset:10,
+                startIndex:0
+            },
+            directoryLoaded:false
         }
+    }
+    fetchDirectoryData(){
+        var intervalObj = setInterval(()=>{
+                clearInterval(intervalObj);
+                this.state.directoryDataList = {
+                    data:dataList,
+                    totalRecordCount:28,
+                    offset:10,
+                    startIndex:0
+                };
+                this.setState({
+                    directoryDataList: this.state.directoryDataList ,
+                    directoryLoaded:true
+                });
+
+        },1000);
+    }
+    loadMoreData(onDone){
+            var dataArray = [];
+        dataArray.push({
+                fname:'Yogesh',
+                lname:'Patel',
+                project:'FuelQuest',
+                phone:'9960614174',
+                email:'yogesh.patel@synerzip.com',
+                skype:'yogesh.patel17',
+                empId:1111,
+                imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
+            });
+
+
+    dataArray.push({
+                fname:'Ashutosh',
+                lname:'Kumar',
+                project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
+                phone:'9881153955',
+                email:'ashutosh@synerzip.com',
+                skype:'ashutosh.kumar',
+                empId:1362,
+                imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
+            });
+    dataArray.push({
+                fname:'Vrinda',
+                lname:'Phadke',
+                project:'FuelQuest,QSI,StepOne',
+                phone:'9767123421',
+                email:'vrinda.phadke@synerzip.com',
+                skype:'vrinda.phadke',
+                empId:1241,
+                imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
+            });
+    dataArray.push({
+                fname:'Vaibhav',
+                lname:'Patil',
+                project:'FuelQuest',
+                phone:'9881255414',
+                email:'vaibhav.patil@synerzip.com',
+                skype:'vaibhav.patil',
+                empId:1054,
+                imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
+            });
+    dataArray.push({
+                fname:'Prashil',
+                lname:'Gote',
+                project:'FuelQuest',
+                phone:'9881153955',
+                email:'prashil.gote@synerzip.com',
+                skype:'prashil.gote',
+                empId:1362,
+                imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
+            });
+
+    dataArray.push({
+        fname:'Yogesh',
+        lname:'Patel',
+        project:'FuelQuest',
+        phone:'9960614174',
+        email:'yogesh.patel@synerzip.com',
+        skype:'yogesh.patel17',
+        empId:1111,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
+    });
+
+
+    dataArray.push({
+        fname:'Ashutosh',
+        lname:'Kumar',
+        project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
+        phone:'9881153955',
+        email:'ashutosh@synerzip.com',
+        skype:'ashutosh.kumar',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
+    });
+    dataArray.push({
+        fname:'Vrinda',
+        lname:'Phadke',
+        project:'FuelQuest,QSI,StepOne',
+        phone:'9767123421',
+        email:'vrinda.phadke@synerzip.com',
+        skype:'vrinda.phadke',
+        empId:1241,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
+    });
+    dataArray.push({
+        fname:'Vaibhav',
+        lname:'Patil',
+        project:'FuelQuest',
+        phone:'9881255414',
+        email:'vaibhav.patil@synerzip.com',
+        skype:'vaibhav.patil',
+        empId:1054,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
+    });
+    dataArray.push({
+        fname:'Prashil',
+        lname:'Gote',
+        project:'FuelQuest',
+        phone:'9881153955',
+        email:'prashil.gote@synerzip.com',
+        skype:'prashil.gote',
+        empId:1362,
+        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
+    });
+
+
+
+            var intervalObj = setInterval(()=>{
+                    clearInterval(intervalObj);
+                    this.startIndex += 10;
+                    this.state.directoryDataList = {
+                        data:this.state.directoryDataList.data.concat(dataArray),
+                        totalRecordCount:28,
+                        offset:10,
+                        startIndex: this.startIndex
+                    }
+
+                    onDone(this.state.directoryDataList);
+
+
+            },3000);
     }
     componentDidMount(){
-        StatusBarIOS.setStyle('default');
+        this.fetchDirectoryData();
     }
-    onTyping(text) {
-        var employees = staticSuggestionData.filter(function (employee) {
-            return employee.name.toLowerCase().startsWith(text.toLowerCase())
-        }).map(function (employee) {
-            return employee.name;
-        });
 
-       return employees;
-    }
     onChangeText(text){
-        var optionPop = true;
-        if(this.state.searchText != '' && text == ''){
-            optionPop = false;
+        if(text != ''){
+            this.setState({searchText:text});
+            if(this.currentNestedIndex != 1) {
+                this.nestedNavigator.push({name: 'DirectoryFilterScene', index: 1});
+                this.currentNestedIndex = 1;
+            }
+        }else{
+            if(this.currentNestedIndex != 0) {
+
+                //console.log("List of routes:"+this.nestedNavigator.getCurrentRoutes().length);
+                this.nestedNavigator.pop();
+                //console.log("List of routes:"+this.nestedNavigator.getCurrentRoutes().length);
+                this.currentNestedIndex = 0;
+
+
+            }else{
+                this.searchField.blur();
+                //If Empty on main screen
+                this.setState({
+                    directoryDataList: [] ,
+                    directoryLoaded:false
+                });
+
+                //Load Again
+                var intervalObj = setInterval(()=>{
+                        clearInterval(intervalObj);
+                    this.state.directoryDataList = {
+                        data:dataList,
+                        totalRecordCount:28,
+                        offset:10,
+                        startIndex:0
+                    };
+                    this.setState({
+                        directoryDataList: this.state.directoryDataList ,
+                        directoryLoaded:true
+                    });
+
+                },1000);
+
+
+            }
+
         }
-        this.setState({searchText:text,showOptions:optionPop})
-    }
-    onEndEditing(){
 
     }
-    selectOption(employee,navigator){
+    onEndEditing(navigator){
+            console.log("Search Ref:::::::::::::::::::::::::::"+this.searchField)
 
-        this.setState({searchText:employee,showOptions:false,loadData:true});
-       // this.forceUpdate();
-        navigator.push({
-            name: 'Directory',
-            index: 0
-        });
     }
+    selectOption(data){
+        this.setState({searchText:data.name});
+        this.nestedNavigator.pop();
+        this.currentNestedIndex = 0;
+        //Get selected data result
+        if(data.type == 1){
+
+        }else if(data.type == 0){
+            //Dummay Data
+            this.setState({directoryLoaded:false,directoryDataList:{
+                data:dataList,
+                totalRecordCount:0,
+                offset:10,
+                startIndex:0
+            }});
+
+            var intervalObj = setInterval(()=>{
+                    clearInterval(intervalObj);
+                    this.state.directoryDataList = {
+                        data:[{
+                            fname:'Yogesh',
+                            lname:'Patel',
+                            project:'FuelQuest',
+                            phone:'9960614174',
+                            email:'yogesh.patel@synerzip.com',
+                            skype:'yogesh.patel17',
+                            empId:1111,
+                            imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
+                        }],
+                        totalRecordCount:1,
+                        offset:10,
+                        startIndex:0
+                    };
+                    this.setState({
+                        directoryDataList: this.state.directoryDataList ,
+                        directoryLoaded:true
+                    });
+
+                },1000);
+        }
+
+    }
+
     onSelect(event) {
         AlertIOS.alert(
             'You choosed',
             event
         );
     }
+    _renderNestedScene(route,navigator){
+        this.nestedNavigator = navigator;
+        if(route.index == 0) {
+            var DirectoryListView = require('./DirectoryListView');
+            return (
+                <View style={styles.listView}>
+                    <DirectoryListView navigator={this.parentNavigator}
+                    directoryDataList={this.state.directoryDataList}
+                    loadMoreData={this.loadMoreData.bind(this)}
+                    directoryLoaded={this.state.directoryLoaded}/>
+                 </View>
+            );
+        }else if(route.index == 1){
+            var DirectoryFilterOptionList = require('./DirectoryFilterOptionList');
+            return(
+                <DirectoryFilterOptionList searchText={this.state.searchText} selectOption={this.selectOption.bind(this)}/>
+              );
+        }
 
+    }
     _renderScene(route,navigator){
+        this.parentNavigator = navigator;
         if(route.index == 0){
-            var options = [];
-            if(this.state.searchText != ""){
-                var employees = this.onTyping(this.state.searchText);
-                options = employees.map((employee)=>{
-                    return(
-                        <TouchableHighlight underlayColor='#e0e0e0' onPress={this.selectOption.bind(this,employee,navigator)}>
-                        <Text style={styles.optionsText}>{employee}</Text>
-                        </TouchableHighlight>
-
-                    );
-                });
-            }
-
-
             return (
                 <View style={styles.container}>
-                    <TextInput style={styles.searchField} placeholder='Search...'
-                        onChangeText={this.onChangeText.bind(this)}
-                        value={this.state.searchText} clearButtonMode="always"
-                        returnKeyType="go" onEndEditing={this.onEndEditing.bind(this)}/>
-
-
-                    <View style={styles.listView} ref='list'>
-                        <DirectoryListView navigator={navigator}
-                            searchText={this.state.searchText}
-                            loadData={this.state.loadData}/>
+                     <View style={styles.searchBox}>
+                        <TextInput style={styles.searchField} placeholder='Search...'
+                            onChangeText={this.onChangeText.bind(this)}
+                            value={this.state.searchText} clearButtonMode="always"
+                            ref={(field)=>this.searchField = field}
+                            returnKeyType="default" onSubmitEditing={this.onEndEditing.bind(this,navigator)}/>
+                        <Image source={require('image!search')} style={styles.searchImage}/>
                     </View>
-                    {
-                        this.state.showOptions ?
-                    <ScrollView style={styles.optionBox} scrollEventThrottle={200}
-                        contentInset={{top: -20}}>
-                    {options}
-                    </ScrollView>
-                    :
-                    <Text>{''}</Text>
-                    }
+
+                    <Navigator
+                        ref='nestedNavigator'
+                        initialRoute={{name: 'DirectoryList', index: 0}}
+                        configureScene={(route) => Navigator.SceneConfigs.FloatFromRight}
+                        renderScene={(route, navigator) =>
+                            this. _renderNestedScene(route,navigator)
+                        }
+                    />
                 </View>
             );
         }else if(route.index == 1){
+            var AddContactScene = require('./AddContactScene');
             return (
                 <AddContactScene navigator={navigator} empData = {route.passProps.empData} />
             );
@@ -186,7 +448,7 @@ class DirectoryScene extends React.Component {
         return (
             <Navigator
                 initialRoute={{name: 'Directory', index: 0}}
-                configureScene={(route) => Navigator.SceneConfigs.FloatFromBottom}
+                configureScene={(route) => Navigator.SceneConfigs.FloatFromRight}
                 renderScene={(route, navigator) =>
                                 this. _renderScene(route,navigator)
                             }
@@ -202,7 +464,7 @@ var styles = StyleSheet.create({
     listView:{
       flex:1,
       backgroundColor:'#f5f5f5',
-      marginTop:10,
+      marginTop:5,
     },
 
     container: {
@@ -210,20 +472,20 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         padding:5,
-        paddingTop: 30
+        paddingTop: 0,
     },
-    autocomplete: {
-        position:'absolute',
-        top:0,
-        left:10,
-        height: 30
+    searchBox:{
+        marginTop:25,
+        height:30,
+        width:screenWidth
     },
     searchField:{
         borderWidth:1,
         borderColor:"#cfd8dc",
         height: 30,
-        paddingLeft:5,
-        color:"#b0bec5"
+        paddingLeft:25,
+        color:"#b0bec5",
+        width:screenWidth - 10
     },
     options:{
         padding:5,
@@ -241,15 +503,16 @@ var styles = StyleSheet.create({
         padding:10
     },
     optionBox:{
-        position:'absolute',
-        width:screenWidth-10,
-        top:60,
-        left:5,
-        height: 120,
-        borderWidth:1,
-        borderColor:"#b0bec5",
+        flex:1,
         borderTopColor:"#FFFFFF",
 
+    },
+    searchImage:{
+        position:'absolute',
+        top:5,
+        left:5,
+        width:20,
+        height:20
     }
 
 

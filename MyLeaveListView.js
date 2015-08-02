@@ -18,75 +18,17 @@ var {
     } = React;
 
 var SlideMenu = require('./SlideMenu');
-
-
-var dataList = [
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'canceled',
-        noOfDays:0.5,
-        id:0
-    },
-    {
-        date:'Tue, 30 Jun 2015 to Thu, 02 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:3,
-        id:1
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:1,
-        id:2
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:1,
-        id:3
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'approved',
-        noOfDays:1,
-        id:4
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:1,
-        id:5
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:1,
-        id:6
-    },
-    {
-        date:'Fri, 17 Jul 2015',
-        type:'Paid Leave',
-        status:'pending',
-        noOfDays:1,
-        id:7
-    }
-];
+var ListLoadingIndicator = require('./ListLoadingIndicator');
 
 class MyLeaveListView extends React.Component{
     constructor(props){
         super(props);
+        this.canLoadMore = false;
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
             }),
-            loaded: false,
+            loading:false
         }
     }
 
@@ -101,50 +43,54 @@ class MyLeaveListView extends React.Component{
             </View>
         );
     }
-    fetchData(){
-
-
-        var intervalObj = setInterval(()=>{
+    componentWillReceiveProps(nextProps){
+        console.log("Receieving Props in List View::::::::::::::::::::::::"+nextProps.myLeavListData.data.length);
+        if(!this.props.myLeaveListLoaded) {
+            this.calculateCanLoadMore(nextProps.myLeavListData);
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(dataList),
-                loaded: true,
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.myLeavListData.data),
+
             });
-            clearInterval(intervalObj);
-        },1000);
+        }
 
-
-
-
+    }
+    calculateCanLoadMore(directoryData){
+        var totalRecordCount = directoryData.totalRecordCount;
+        var startIndex = directoryData.startIndex;
+        var offset = directoryData.offset;
+        if((startIndex + offset) >= totalRecordCount){
+            this.canLoadMore = false;
+        }else{
+            this.canLoadMore = true;
+        }
+        console.log("caN lOAD mORE::::::"+ this.canLoadMore);
     }
     componentDidMount(){
-        this.fetchData();
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.props.myLeavListData.data)
+        });
     }
+    loadMore(){
 
+        if(this.state.loading || !this.canLoadMore){
+            return;
+        }
+        this.setState({loading:true});
+
+        //Load More Data
+        this.props.loadMoreData((myLeaveData)=>{
+            this.calculateCanLoadMore(myLeaveData);
+            this.setState({
+                loading:false,
+                dataSource: this.state.dataSource.cloneWithRows(myLeaveData.data)});
+        });
+    }
     cancelLeave(data){
         console.log('Cancelling leave...');
-        var dataBlob = [];
-        for(var index =0 ; index < dataList.length; index++){
-            var temp = dataList[index];
-            if(temp.id == data.id){
-                var newData = {
-                    date:data.date,
-                    type:data.type,
-                    status:'canceled',
-                    noOfDays:data.noOfDays,
-                    id:data.id
-                };
-                dataBlob.push(newData);
-
-            }else{
-                dataBlob.push(temp);
-            }
-        }
-        dataList = dataBlob;
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(dataBlob)
-        });
-
-
+        this.props.cancelLeave((myLeaveData)=>{
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(myLeaveData.data)});
+        },data);
     }
     renderOptions(data){
         return(
@@ -213,18 +159,31 @@ class MyLeaveListView extends React.Component{
         );
     }
     render (){
-        if (!this.state.loaded) {
+        if (!this.props.myLeaveListLoaded) {
             return this.renderLoadingView();
         }
 
         return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderData.bind(this)}
-                style={styles.listView}
-                automaticallyAdjustContentInsets={false}
-                contentInset={{bottom:49}}
-                />
+            <View style={[{flex:1}]}>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    onEndReached={this.loadMore.bind(this)}
+                    renderRow={this.renderData.bind(this)}
+                    style={styles.listView}
+                    automaticallyAdjustContentInsets={false}
+                    contentInset={{bottom:49}}
+                    scrollEventThrottle={100}
+                    onEndReachedThreshold={2}
+                    directionalLockEnabled={true}
+                    pageSize={10}
+                    />
+                    {
+                        this.state.loading ?
+                    <ListLoadingIndicator />
+                    :<Text>{''}</Text>
+                    }
+
+            </View>
         );
 
     }

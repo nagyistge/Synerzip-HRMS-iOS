@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var LoginScreen = require('./LoginScreen');
+
 var {
     StyleSheet,
     Text,
@@ -26,6 +26,7 @@ class HelloWorld extends React.Component{
 }
 class SynerzipHRMS extends React.Component{
     render (){
+        var LoginScreen = require('./LoginScreen');
         return (
             <LoginScreen images={images}/>
         );

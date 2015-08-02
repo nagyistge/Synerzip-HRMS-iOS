@@ -17,7 +17,7 @@ var SlideMenu = React.createClass({
         this._panGesture = PanResponder.create({
             onMoveShouldSetPanResponder: (evt, gestureState) => {
                 return Math.abs(gestureState.dx) > Math.abs(gestureState.dy)
-                    && Math.abs(gestureState.dx) > 10
+                    && Math.abs(gestureState.dx) > 20
             },
             onPanResponderGrant: (evt, gestureState) => this.left = 0,
             onPanResponderMove: (evt, gestureState) => this.moveCenterView(gestureState.dx),

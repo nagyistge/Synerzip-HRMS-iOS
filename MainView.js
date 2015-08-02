@@ -15,10 +15,6 @@ var {
     TabBarIOS
     } = React;
 
-var MyLeaveScreen = require('./MyLeaveScreen');
-var ProfileScreen = require('./ProfileScreen');
-var DirectoryScene = require('./DirectoryScene');
-
 class MainView extends React.Component{
     constructor(props){
         super(props);
@@ -27,7 +23,24 @@ class MainView extends React.Component{
             notifCount: 2,
         }
     }
+    getMyLeaveScreen(){
+        var MyLeaveScreen = require('./MyLeaveScreen');
+        return(
+            <MyLeaveScreen />
+        );
+    }
+    getApprovaleScreen(){
+        return (<Text>Approvals</Text>);
+    }
+    getDirectoryScreen(){
+        var DirectoryScene = require('./DirectoryScene');
+        return (<DirectoryScene />);
+    }
 
+    getProfileScreen(){
+        var ProfileScreen = require('./ProfileScreen');
+        return ( <ProfileScreen />);
+    }
     render(){
         return(
         <TabBarIOS>
@@ -40,7 +53,7 @@ class MainView extends React.Component{
                         selectedTab: 'leave',
                     });
                 }}>
-                <MyLeaveScreen />
+                {this.getMyLeaveScreen()}
             </TabBarIOS.Item>
             <TabBarIOS.Item
                 title="Approval"
@@ -52,7 +65,7 @@ class MainView extends React.Component{
                         selectedTab: 'approval',
                     });
                 }}>
-                <Text>Approvals</Text>
+                {this.getApprovaleScreen()}
             </TabBarIOS.Item>
             <TabBarIOS.Item
                 title="Directory"
@@ -63,7 +76,7 @@ class MainView extends React.Component{
                         selectedTab: 'directory',
                     });
                 }}>
-                <DirectoryScene />
+                {this.getDirectoryScreen()}
             </TabBarIOS.Item>
             <TabBarIOS.Item
                 title="Setting"
@@ -74,7 +87,7 @@ class MainView extends React.Component{
                         selectedTab: 'settings',
                     });
                 }}>
-                <ProfileScreen />
+                {this.getProfileScreen()}
             </TabBarIOS.Item>
             <TabBarIOS.Item
                 title="More"
@@ -85,7 +98,7 @@ class MainView extends React.Component{
                         selectedTab: 'menu',
                     });
                 }}>
-                    <ProfileScreen />
+                    {this.getProfileScreen()}
             </TabBarIOS.Item>
         </TabBarIOS>
         );

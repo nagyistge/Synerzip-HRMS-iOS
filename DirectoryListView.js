@@ -18,6 +18,8 @@ var {
     Component,
     LinkingIOS
     } = React;
+
+var ListLoadingIndicator = require('./ListLoadingIndicator');
 var ActionSheetIOS = require('ActionSheetIOS');
 var AddressBook = require('react-native-addressbook');
 var Dimensions = require('Dimensions')
@@ -28,78 +30,51 @@ var BUTTONS = [
     'Cancel',
 ];
 var CANCEL_INDEX = 2;
-var dataList = [
-    {
-        fname:'Yogesh',
-        lname:'Patel',
-        project:'FuelQuest',
-        phone:'9960614174',
-        email:'yogesh.patel@synerzip.com',
-        skype:'yogesh.patel17',
-        empId:1111,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/000/2ac/208/1318b23.jpg'
-    },
-    {
-        fname:'Nidhi',
-        lname:'Harshad Shrikhande',
-        project:'HR',
-        phone:'9881255414',
-        email:'nidhi@synerzip.com',
-        skype:'nidhishrikhande',
-        empId:1054,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/097/3d3/07a02ee.jpg'
-    },
-    {
-        fname:'Ashutosh',
-        lname:'Kumar',
-        project:'Examsoft,RxNetwork,HRMS,SCS Renewables / Mercatus,Rezoomex',
-        phone:'9881153955',
-        email:'ashutosh@synerzip.com',
-        skype:'ashutosh.kumar',
-        empId:1362,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/000/1da/31e/354e7f1.jpg'
-    },
-    {
-        fname:'Vrinda',
-        lname:'Phadke',
-        project:'FuelQuest,QSI,StepOne',
-        phone:'9767123421',
-        email:'vrinda.phadke@synerzip.com',
-        skype:'vrinda.phadke',
-        empId:1241,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/5/005/019/0fe/0d38430.jpg'
-    },
-    {
-        fname:'Vaibhav',
-        lname:'Patil',
-        project:'FuelQuest',
-        phone:'9881255414',
-        email:'vaibhav.patil@synerzip.com',
-        skype:'vaibhav.patil',
-        empId:1054,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/255/196/04b28d6.jpg'
-    },
-    {
-        fname:'Prashil',
-        lname:'Gote',
-        project:'FuelQuest',
-        phone:'9881153955',
-        email:'prashil.gote@synerzip.com',
-        skype:'prashil.gote',
-        empId:1362,
-        imgPath:'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAK0AAAAJGVkMjIyODBkLTg3YjItNGEwMS1hMWY1LWI2NmMwZDBhNjhkMQ.jpg'
-    }
-];
+
+
 
 class DirectoryListView extends React.Component{
     constructor(props){
         super(props);
+        this.canLoadMore = false;
         this.state = {
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2,
             }),
-            loaded: false,
+            loading:false
+
         }
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("Receieving Props in List View::::::::::::::::::::::::");
+        if(nextProps.selectedObj != null || !this.props.directoryLoaded) {
+            this.calculateCanLoadMore(nextProps.directoryDataList);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.directoryDataList.data),
+
+            });
+        }
+
+    }
+    calculateCanLoadMore(directoryData){
+        var totalRecordCount = directoryData.totalRecordCount;
+        var startIndex = directoryData.startIndex;
+        var offset = directoryData.offset;
+        if((startIndex + offset) >= totalRecordCount){
+            this.canLoadMore = false;
+        }else{
+            this.canLoadMore = true;
+        }
+        console.log("caN lOAD mORE::::::"+ this.canLoadMore);
+    }
+    componentDidMount(){
+        console.log("Mounting List View::::::::::::::::::::::::");
+        this.calculateCanLoadMore(this.props.directoryDataList);
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.props.directoryDataList.data),
+
+        });
+
     }
     renderLoadingView(){
         return (
@@ -112,28 +87,7 @@ class DirectoryListView extends React.Component{
             </View>
         );
     }
-    fetchData(){
-        console.log(this.props.searchText);
-        this.setState({
-            loaded: false,
-            dataSource: this.state.dataSource.cloneWithRows([]),
-        });
 
-        var intervalObj = setInterval(()=>{
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(dataList),
-                loaded: true,
-            });
-            clearInterval(intervalObj);
-        },1000);
-
-
-
-
-    }
-    componentDidMount(){
-        this.fetchData();
-    }
 
     onRowSelect(data){
         ActionSheetIOS.showActionSheetWithOptions({
@@ -169,7 +123,7 @@ class DirectoryListView extends React.Component{
     getCenter(data){
 
         return(
-            <TouchableHighlight onPress={this.onRowSelect.bind(this,data)}>
+            <TouchableHighlight onLongPress={this.onRowSelect.bind(this,data)}>
                 <View>
                     <View style={styles.container}>
                         <Image
@@ -204,23 +158,50 @@ class DirectoryListView extends React.Component{
             return this.getCenter(data);
 
     }
+    loadMore(){
+
+        if(this.state.loading || !this.canLoadMore){
+            return;
+        }
+        this.setState({loading:true});
+
+        //Load More Data
+        this.props.loadMoreData((directortData)=>{
+            this.calculateCanLoadMore(directortData);
+            this.setState({
+                loading:false,
+                dataSource: this.state.dataSource.cloneWithRows(directortData.data)});
+        });
+
+
+    }
     render (){
-        if(this.state.loadData){
-            this.fetchData.bind(this);
-        }
-        if (!this.state.loaded) {
+        console.log("this.props.directoryLoaded:"+this.props.directoryLoaded);
+        if(!this.props.directoryLoaded){
 
-            return this.renderLoadingView();
+           return ( this.renderLoadingView());
         }
-
         return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderData.bind(this)}
-                style={styles.listView}
-                automaticallyAdjustContentInsets={false}
-                contentInset={{bottom:49}}
-                />
+            <View style={[{flex:1}]}>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    onEndReached={this.loadMore.bind(this)}
+                    renderRow={this.renderData.bind(this)}
+                    style={styles.listView}
+                    automaticallyAdjustContentInsets={false}
+                    contentInset={{bottom:49}}
+                    scrollEventThrottle={100}
+                    onEndReachedThreshold={2}
+                    directionalLockEnabled={true}
+                    pageSize={15}
+                    />
+                {
+                 this.state.loading ?
+                    <ListLoadingIndicator />
+                    :<Text>{''}</Text>
+                }
+
+            </View>
         );
 
     }
@@ -293,6 +274,13 @@ var styles = StyleSheet.create({
         paddingTop:0,
         fontStyle:'italic',
         overflow:'hidden'
+    },
+    loadingContainer:{
+        height:60,
+        flexDirection:'row',
+        alignSelf:'center',
+        marginBottom:15
+
     }
 
 

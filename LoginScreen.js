@@ -49,7 +49,8 @@ class LoginScreen extends React.Component{
 
         if(this.validate()) {
             this.setState({isLoading: true,error:false});
-            setInterval(()=>{
+            var interval = setInterval(()=>{
+                clearInterval(interval);
                 this.setState({isLoading: false,loggedIn:true});
             },300);
         }
