@@ -41,6 +41,11 @@ class MainView extends React.Component{
         var ProfileScreen = require('./ProfileScreen');
         return ( <ProfileScreen />);
     }
+
+    getMoreScreen(){
+        var MoreScreen = require('./MoreScreen');
+        return (<MoreScreen />);
+    }
     render(){
         return(
         <TabBarIOS>
@@ -79,12 +84,12 @@ class MainView extends React.Component{
                 {this.getDirectoryScreen()}
             </TabBarIOS.Item>
             <TabBarIOS.Item
-                title="Setting"
-                icon={require('image!settings')}
-                selected={this.state.selectedTab === 'settings'}
+                title="Vacancies"
+                icon={require('image!vacancies')}
+                selected={this.state.selectedTab === 'vacancies'}
                 onPress={() => {
                     this.setState({
-                        selectedTab: 'settings',
+                        selectedTab: 'vacancies',
                     });
                 }}>
                 {this.getProfileScreen()}
@@ -98,7 +103,7 @@ class MainView extends React.Component{
                         selectedTab: 'menu',
                     });
                 }}>
-                    {this.getProfileScreen()}
+                    {this.getMoreScreen()}
             </TabBarIOS.Item>
         </TabBarIOS>
         );

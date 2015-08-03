@@ -112,7 +112,19 @@ class MyLeaveScreen extends React.Component{
             myLeaveListLoaded:false
         }
     }
-    fetchData(){
+    fetchMyLeaveData(filters){
+        if(filters) {
+            console.log("Filter Data:" + filters.pendingApproval);
+        }
+        this.setState({
+            myLeavListData:{
+                data:[],
+                totalRecordCount:0,
+                offset:10,
+                startIndex:0
+            },
+            myLeaveListLoaded:false
+        });
         var intervalObj = setInterval(()=>{
 
             clearInterval(intervalObj);
@@ -255,7 +267,8 @@ class MyLeaveScreen extends React.Component{
                                myLeavListData={this.state.myLeavListData}
                                myLeaveListLoaded ={this.state.myLeaveListLoaded}
                                loadMoreData={this.loadMoreData.bind(this)}
-                               cancelLeave={this.cancelLeave.bind(this)}/>
+                               cancelLeave={this.cancelLeave.bind(this)}
+                               fetchMyLeaveData={this.fetchMyLeaveData.bind(this)}/>
             );
         }else if(route.index == 1){
             var LeaveApplyScreen = require('./LeaveApplyScreen');
@@ -264,7 +277,7 @@ class MyLeaveScreen extends React.Component{
     }
     componentDidMount(){
         StatusBarIOS.setStyle('default');
-        this.fetchData();
+        this.fetchMyLeaveData();
     }
     render(){
 

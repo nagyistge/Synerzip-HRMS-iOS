@@ -24,36 +24,27 @@ var MyLeaveListView = require('./MyLeaveListView');
 
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
+var MyLeaveFilterScreen = require('./MyLeaveFilterScreen');
 
-
-
-class Menu extends React.Component{
-    about(){
-        //this.props.menuActions.close();
-        //this.props.navigator.pop();
-    }
-
-    render(){
-        return (
-            <ScrollView style={styles.menu}>
-                <View style={styles.avatarContainer}>
-                    <Image
-                        style={styles.avatar}
-                        source={{
-              uri: 'http://pickaface.net/includes/themes/clean/img/slide2.png'
-            }}/>
-                    <Text style={{ position: 'absolute', left: 70, top: 20 }}>Yogesh Patel</Text>
-                </View>
-
-                <Text style={styles.item}>About</Text>
-                <Text style={styles.item}>Contacts</Text>
-            </ScrollView>
-        );
-    }
-}
 
 class MyLeaveDetail extends React.Component{
-
+    constructor(props){
+        super(props);
+        this.originalFilterState = {
+                pendingApproval:true,
+                rejected:true,
+                canceled:true,
+                scheduled:true,
+                taken:true
+        };
+        this.modifiedFilterState = {
+            pendingApproval:true,
+            rejected:true,
+            canceled:true,
+            scheduled:true,
+            taken:true
+        };
+    }
 
     onLeftClick(){
         this.refs.sideMenu.left ? this.refs.sideMenu.closeMenu() : this.refs.sideMenu.openMenu()
@@ -64,10 +55,41 @@ class MyLeaveDetail extends React.Component{
     showPaidLeaveList(){
         console.log("Show Paid Leave");
     }
+    onModifiedFilter(modifiedFilters){
+        this.modifiedFilterState = modifiedFilters;
+
+    }
+    isFilterChanges(){
+        if(this.originalFilterState.pendingApproval != this.modifiedFilterState.pendingApproval){
+            return true;
+        }
+        if(this.originalFilterState.rejected != this.modifiedFilterState.rejected){
+            return true;
+        }
+        if(this.originalFilterState.canceled != this.modifiedFilterState.canceled){
+            return true;
+        }
+        if(this.originalFilterState.scheduled != this.modifiedFilterState.scheduled){
+            return true;
+        }
+        if(this.originalFilterState.taken != this.modifiedFilterState.taken){
+            return true;
+        }
+        return false;
+    }
+    sideMenuChange(open){
+        if(open && this.isFilterChanges()) {
+            this.props.fetchMyLeaveData(this.modifiedFilterState);
+            this.originalFilterState = this.modifiedFilterState;
+
+        }
+
+    }
     render(){
-        var menu = <Menu navigator={navigator}/>;
+        var menu = <MyLeaveFilterScreen  modifiedFilterState = {this.modifiedFilterState}
+                onModifiedFilter={this.onModifiedFilter.bind(this)}/>;
         return (
-            <SideMenu openMenuOffset={screenWidth - 40} ref="sideMenu"  menu={menu} touchToClose={true} disableGestures={true}>
+            <SideMenu onChange={this.sideMenuChange.bind(this)} openMenuOffset={screenWidth - 40} ref="sideMenu"  menu={menu} touchToClose={true} disableGestures={true}>
                 <View style={styles.container}>
                     <SceneNavBar title="My Leave" onRightClick={this.onRightClick.bind(this)} rightTitle="Apply"
                                  leftIcon={require('image!filter')}
@@ -106,7 +128,8 @@ class MyLeaveDetail extends React.Component{
 
 var styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
+        backgroundColor:'#FFFFFF'
     },
     listView:{
         flex:1,
@@ -152,13 +175,7 @@ var styles = StyleSheet.create({
         fontSize:25
     },
 
-    menu: {
-        flex: 1,
-        width: window.width,
-        height: window.height,
 
-        padding: 20
-    },
     caption: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -179,6 +196,7 @@ var styles = StyleSheet.create({
         fontWeight: '300',
         paddingTop: 5,
     },
+
 });
 
 module.exports = MyLeaveDetail;

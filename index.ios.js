@@ -10,7 +10,8 @@ var {
     TouchableHighlight,
     ActivityIndicatorIOS,
     Image,
-    Component
+    Component,
+    LinkingIOS
     } = React;
 
 var images = {
@@ -25,6 +26,15 @@ class HelloWorld extends React.Component{
     }
 }
 class SynerzipHRMS extends React.Component{
+    componentDidMount() {
+        LinkingIOS.addEventListener('url', this._processURL);
+    }
+    componentWillUnmount() {
+        LinkingIOS.removeEventListener('url', this._processURL);
+    }
+    _processURL(e){
+        console.log("URL::::::::::::::::::"+ e.url);
+    }
     render (){
         var LoginScreen = require('./LoginScreen');
         return (

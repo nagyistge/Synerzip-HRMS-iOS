@@ -172,7 +172,7 @@ class MyLeaveListView extends React.Component{
                     style={styles.listView}
                     automaticallyAdjustContentInsets={false}
                     contentInset={{bottom:49}}
-                    scrollEventThrottle={100}
+                    scrollEventThrottle={300}
                     onEndReachedThreshold={2}
                     directionalLockEnabled={true}
                     pageSize={10}

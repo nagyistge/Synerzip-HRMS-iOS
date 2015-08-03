@@ -9,9 +9,18 @@
 
 #import "AppDelegate.h"
 
+#import "RCTLinkingManager.h"
+
 #import "RCTRootView.h"
 
+
+
+
+
 @implementation AppDelegate
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -31,7 +40,7 @@
    * on the same Wi-Fi network.
    */
 
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+  jsCodeLocation = [NSURL URLWithString:@"http://192.168.0.103:8081/index.ios.bundle"];
 
   /**
    * OPTION 2
