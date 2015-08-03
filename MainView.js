@@ -24,7 +24,7 @@ class MainView extends React.Component{
         }
     }
     getMyLeaveScreen(){
-        var MyLeaveScreen = require('./MyLeaveScreen');
+        var MyLeaveScreen = require('./Leave/MyLeaveScreen');
         return(
             <MyLeaveScreen />
         );
@@ -33,17 +33,17 @@ class MainView extends React.Component{
         return (<Text>Approvals</Text>);
     }
     getDirectoryScreen(){
-        var DirectoryScene = require('./DirectoryScene');
+        var DirectoryScene = require('./Directory/DirectoryScene');
         return (<DirectoryScene />);
     }
 
     getProfileScreen(){
-        var ProfileScreen = require('./ProfileScreen');
+        var ProfileScreen = require('./More/ProfileScreen');
         return ( <ProfileScreen />);
     }
 
     getMoreScreen(){
-        var MoreScreen = require('./MoreScreen');
+        var MoreScreen = require('./More/MoreScreen');
         return (<MoreScreen />);
     }
     render(){

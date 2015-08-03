@@ -15,8 +15,8 @@ var {
 
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
-var CheckMarkSelection = require('./CheckMarkSelection');
-var SceneNavBar = require('./SceneNavBar');
+var CheckMarkSelection = require('../Common/CheckMarkSelection');
+var SceneNavBar = require('../Common/SceneNavBar');
 
 class MyLeaveFilterScreen extends React.Component{
     constructor(props){

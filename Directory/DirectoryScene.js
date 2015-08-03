@@ -24,7 +24,7 @@ var {
 
 
 
-var SceneNavBar = require('./SceneNavBar');
+var SceneNavBar = require('../Common/SceneNavBar');
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
 

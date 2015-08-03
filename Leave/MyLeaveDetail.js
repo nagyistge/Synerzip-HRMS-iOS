@@ -18,7 +18,7 @@ var {
     } = React;
 
 
-var SceneNavBar = require('./SceneNavBar');
+var SceneNavBar = require('../Common/SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var MyLeaveListView = require('./MyLeaveListView');
 

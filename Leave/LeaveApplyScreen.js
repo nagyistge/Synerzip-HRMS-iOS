@@ -21,10 +21,10 @@ var {
     Image,
     Component
     } = React;
-var SceneNavBar = require('./SceneNavBar');
+var SceneNavBar = require('../Common/SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var NumberSelection = require('./NumberSelection');
-var Mask = require('./Mask');
+var Mask = require('../Common/Mask');
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
 class Menu extends React.Component{

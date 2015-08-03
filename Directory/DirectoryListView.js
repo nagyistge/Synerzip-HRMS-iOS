@@ -19,7 +19,7 @@ var {
     LinkingIOS
     } = React;
 
-var ListLoadingIndicator = require('./ListLoadingIndicator');
+var ListLoadingIndicator = require('../Common/ListLoadingIndicator');
 var ActionSheetIOS = require('ActionSheetIOS');
 var AddressBook = require('react-native-addressbook');
 var Dimensions = require('Dimensions')

@@ -17,8 +17,8 @@ var {
     Component
     } = React;
 
-var SlideMenu = require('./SlideMenu');
-var ListLoadingIndicator = require('./ListLoadingIndicator');
+var SlideMenu = require('../Common/SlideMenu');
+var ListLoadingIndicator = require('../Common/ListLoadingIndicator');
 
 class MyLeaveListView extends React.Component{
     constructor(props){

@@ -14,7 +14,7 @@ var {
     AlertIOS
     } = React;
 
-var SceneNavBar = require('./SceneNavBar');
+var SceneNavBar = require('../Common/SceneNavBar');
 var AddressBook = require('react-native-addressbook');
 var Dimensions = require('Dimensions')
 var screenWidth = Dimensions.get('window').width
