@@ -297,7 +297,8 @@ var styles = StyleSheet.create({
     infoImage:{
         width:20,
         height:20,
-        marginTop:0
+        marginTop:0,
+        marginRight:5
     },
     rowImage:{
         flexDirection:'row',

@@ -37,6 +37,13 @@ class MoreView extends React.Component{
 
         });
     }
+    onHolidaysSelected(){
+        var HolidaysScreen = require('./HolidaysScreen');
+        this.props.navigator.push({
+            component: HolidaysScreen,
+            title: 'Holidays',
+        });
+    }
     render(){
 
         return(
@@ -76,7 +83,7 @@ class MoreView extends React.Component{
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={this.onHolidaysSelected.bind(this)}>
                     <View style={styles.option}>
                         <Image source={require('image!holidays')} style={styles.profileImage}/>
                         <View style={styles.optionTextBox}>
