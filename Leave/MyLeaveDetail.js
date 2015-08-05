@@ -21,6 +21,7 @@ var {
 var SceneNavBar = require('../Common/SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var MyLeaveListView = require('./MyLeaveListView');
+var LeaveBalanceBox = require('./LeaveBalanceBox');
 
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
@@ -35,14 +36,16 @@ class MyLeaveDetail extends React.Component{
                 rejected:true,
                 canceled:true,
                 scheduled:true,
-                taken:true
+                taken:true,
+                all:true
         };
         this.modifiedFilterState = {
             pendingApproval:true,
             rejected:true,
             canceled:true,
             scheduled:true,
-            taken:true
+            taken:true,
+            all:true
         };
     }
 
@@ -82,6 +85,13 @@ class MyLeaveDetail extends React.Component{
             this.props.fetchMyLeaveData(this.modifiedFilterState);
             this.originalFilterState = this.modifiedFilterState;
 
+            console.log("pendingApprovalStatus:param "+this.originalFilterState.pendingApproval);
+            console.log("rejected:param "+this.originalFilterState.rejected);
+            console.log("canceled:param "+this.originalFilterState.canceled);
+            console.log("scheduled:param "+this.originalFilterState.scheduled);
+
+            console.log("taken:param "+this.originalFilterState.taken);
+            console.log("all:param "+this.originalFilterState.all);
         }
 
     }
@@ -94,25 +104,7 @@ class MyLeaveDetail extends React.Component{
                     <SceneNavBar title="My Leave" onRightClick={this.onRightClick.bind(this)} rightTitle="Apply"
                                  leftIcon={require('image!filter')}
                                  onLeftClick={this.onLeftClick.bind(this)}/>
-                    <View style={styles.leaveBalanceBox}>
-                        <View style={styles.balanceBox}>
-                            <TouchableOpacity onPress={this.showPaidLeaveList.bind(this)}>
-                                <View style={styles.leaveBox} >
-                                    <Text style={styles.balance}>12/21</Text>
-                                    <Text style={styles.leaveType}>Paid Leave</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <View style={styles.separator} >
-                                <Text>{''}</Text>
-                            </View>
-                            <TouchableOpacity onPress={this.showPaidLeaveList.bind(this)}>
-                                <View style={styles.wfhBox} >
-                                    <Text style={styles.balance}>1/3</Text>
-                                    <Text style={styles.leaveType}>Work From Home</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    <LeaveBalanceBox paidBalance={17} wfhBalance={3}/>
                     <View style={styles.listView}>
                         <MyLeaveListView myLeavListData={this.props.myLeavListData}
                                          myLeaveListLoaded={this.props.myLeaveListLoaded}
@@ -135,67 +127,7 @@ var styles = StyleSheet.create({
         flex:1,
         backgroundColor:'transparent'
     },
-    leaveBalanceBox:{
-        backgroundColor:'#37474f',
-        marginTop:5,
-        padding:20,
-        paddingTop:5
-    },
-    balanceBox:{
-        alignSelf:'stretch',
-        flexDirection:'row',
-        marginTop:5
-    },
-    leaveBox:{
-        flexDirection:'column',
-        marginRight:10,
-        alignSelf:'flex-start',
-        flex:1,
-        height:40
-    },
-    wfhBox:{
-        flexDirection:'column',
-        alignSelf:'flex-end',
-        marginRight:10,
-        flex:1,
-        height:40
-    },
-    separator:{
-        borderColor:'#FFFFFF',
-        borderWidth:1
-    },
-    leaveType:{
-        alignSelf:'center',
-        color:"#FFFFFF",
-        fontSize:12
-    },
-    balance:{
-        alignSelf:'center',
-        color:"#FFFFFF",
-        fontSize:25
-    },
 
-
-    caption: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        alignItems: 'center',
-    },
-    avatarContainer: {
-        marginBottom: 20,
-        marginTop: 20
-    },
-    avatar: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        flex: 1
-    },
-    item: {
-        fontSize: 14,
-        fontWeight: '300',
-        paddingTop: 5,
-    },
 
 });
 

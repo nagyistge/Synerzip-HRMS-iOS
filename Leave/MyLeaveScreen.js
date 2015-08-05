@@ -272,7 +272,8 @@ class MyLeaveScreen extends React.Component{
             );
         }else if(route.index == 1){
             var LeaveApplyScreen = require('./LeaveApplyScreen');
-            return <LeaveApplyScreen navigator={navigator}/>;
+            return <LeaveApplyScreen paidLeaveBalance={17} wfhLeaveBalance={3} availableCompOff={2}
+                    navigator={navigator}/>;
         }
     }
     componentDidMount(){

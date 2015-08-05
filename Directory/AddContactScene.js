@@ -48,12 +48,37 @@ class AddContactScene extends React.Component{
             }],
         }
         console.log(newPerson);
-        AddressBook.addContact(newPerson, (err) => {
-            console.log('NEW CONTACT', err, newPerson);
+        AddressBook.checkPermission( (err, permission) => {
+            // AddressBook.PERMISSION_AUTHORIZED || AddressBook.PERMISSION_UNDEFINED || AddressBook.PERMISSION_DENIED
+            if(permission === 'undefined'){
+                AddressBook.requestPermission( (err, permission) => {
+                    if(permission === 'authorized'){
+                        AddressBook.addContact(newPerson, (err) => {
+                            console.log('NEW CONTACT', err, newPerson);
 
+                         });
+                        AlertIOS.alert('Saved Successfully');
+                        this.props.navigator.pop();
+                    }
+                    if(permission === 'denied'){
+                        this.props.navigator.pop();
+                    }
+                });
+            }
+            if(permission === 'authorized'){
+                AddressBook.addContact(newPerson, (err) => {
+                    console.log('NEW CONTACT', err, newPerson);
+
+                });
+                AlertIOS.alert('Saved Successfully');
+                this.props.navigator.pop();
+            }
+            if(permission === 'denied'){
+                this.props.navigator.pop();
+            }
         });
-        AlertIOS.alert('Saved Successfully');
-        this.props.navigator.pop();
+
+
 
     }
     onCancel(){

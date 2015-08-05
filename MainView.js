@@ -11,8 +11,10 @@ var {
     View,
     TouchableHighlight,
     ActivityIndicatorIOS,
+    Navigator,
     Component,
-    TabBarIOS
+    TabBarIOS,
+    StatusBarIOS
     } = React;
 
 class MainView extends React.Component{
@@ -42,70 +44,90 @@ class MainView extends React.Component{
         return ( <ProfileScreen />);
     }
 
-    getMoreScreen(){
+    getMoreScreen(navigator){
         var MoreScreen = require('./More/MoreScreen');
-        return (<MoreScreen />);
+
+        return (<MoreScreen topNavigator={navigator}/>);
+    }
+    _renderScene(route,navigator){
+        if(route.index == 1){
+            var CameraScene = require('./Common/CameraScene');
+            //console.log("In Main View.........."+route.passProps.onCapture)
+            return (<CameraScene topNavigator={navigator} onCapture={route.passProps.onCapture}/>);
+            //return (<Text>Hello</Text>);
+        }else if(route.index == 0){
+            StatusBarIOS.setStyle('default');
+            return(
+                <TabBarIOS>
+                    <TabBarIOS.Item
+                        title="Leave"
+                        icon={require('image!leave')}
+                        selected={this.state.selectedTab === 'leave'}
+                        onPress={() => {
+                            this.setState({
+                        selectedTab: 'leave',
+                        });
+                        }}>
+                        {this.getMyLeaveScreen(navigator)}
+                     </TabBarIOS.Item>
+                     <TabBarIOS.Item
+                        title="Approval"
+                        icon={require('image!notification')}
+                        badge={this.state.notifCount > 0 ? this.state.notifCount : undefined}
+                        selected={this.state.selectedTab === 'approval'}
+                        onPress={() => {
+                            this.setState({
+                                selectedTab: 'approval',
+                            });
+                        }}>
+                        {this.getApprovaleScreen()}
+                     </TabBarIOS.Item>
+                     <TabBarIOS.Item
+                        title="Directory"
+                        icon={require('image!contacts')}
+                        selected={this.state.selectedTab === 'directory'}
+                        onPress={() => {
+                            this.setState({
+                                selectedTab: 'directory',
+                            });
+                        }}>
+                        {this.getDirectoryScreen()}
+                     </TabBarIOS.Item>
+                     <TabBarIOS.Item
+                        title="Vacancies"
+                        icon={require('image!vacancies')}
+                        selected={this.state.selectedTab === 'vacancies'}
+                        onPress={() => {
+                            this.setState({
+                                selectedTab: 'vacancies',
+                            });
+                        }}>
+                        {this.getProfileScreen()}
+                     </TabBarIOS.Item>
+                     <TabBarIOS.Item
+                        title="More"
+                        icon={require('image!menu')}
+                        selected={this.state.selectedTab === 'menu'}
+                        onPress={() => {
+                            this.setState({
+                                selectedTab: 'menu',
+                            });
+                        }}>
+                        {this.getMoreScreen(navigator)}
+                     </TabBarIOS.Item>
+                    </TabBarIOS>);
+        }
     }
     render(){
+
         return(
-        <TabBarIOS>
-            <TabBarIOS.Item
-                title="Leave"
-                icon={require('image!leave')}
-                selected={this.state.selectedTab === 'leave'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'leave',
-                    });
-                }}>
-                {this.getMyLeaveScreen()}
-            </TabBarIOS.Item>
-            <TabBarIOS.Item
-                title="Approval"
-                icon={require('image!notification')}
-                badge={this.state.notifCount > 0 ? this.state.notifCount : undefined}
-                selected={this.state.selectedTab === 'approval'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'approval',
-                    });
-                }}>
-                {this.getApprovaleScreen()}
-            </TabBarIOS.Item>
-            <TabBarIOS.Item
-                title="Directory"
-                icon={require('image!contacts')}
-                selected={this.state.selectedTab === 'directory'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'directory',
-                    });
-                }}>
-                {this.getDirectoryScreen()}
-            </TabBarIOS.Item>
-            <TabBarIOS.Item
-                title="Vacancies"
-                icon={require('image!vacancies')}
-                selected={this.state.selectedTab === 'vacancies'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'vacancies',
-                    });
-                }}>
-                {this.getProfileScreen()}
-            </TabBarIOS.Item>
-            <TabBarIOS.Item
-                title="More"
-                icon={require('image!menu')}
-                selected={this.state.selectedTab === 'menu'}
-                onPress={() => {
-                    this.setState({
-                        selectedTab: 'menu',
-                    });
-                }}>
-                    {this.getMoreScreen()}
-            </TabBarIOS.Item>
-        </TabBarIOS>
+            <Navigator
+                initialRoute={{name: 'Main Tab', index: 0}}
+                configureScene={(route) => Navigator.SceneConfigs.FloatFromBottom}
+                renderScene={(route, navigator) =>
+                    this. _renderScene(route,navigator)
+                }/>
+
         );
     }
 }

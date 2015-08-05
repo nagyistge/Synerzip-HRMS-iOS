@@ -21,14 +21,14 @@ class CheckMarkSelection extends React.Component {
         };
     }
     onPress(){
-        var selected = !this.state.selected;
+        var selected = !this.props.selected;
         this.setState({selected:selected});
         this.props.onPress(this.props.paramKey,selected);
     }
 
     render() {
         var checkImage = <Image source={require('image!unselected')} style={styles.checkImage}/>;
-        if(this.state.selected){
+        if(this.props.selected){
             checkImage = <Image source={require('image!selected')} style={styles.checkImage}/>;
         }
         return (

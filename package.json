@@ -6,6 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "js-base64": "git+https://github.com/dankogai/js-base64.git",
     "moment": "^2.10.3",
     "react-native": "^0.7.1",
     "react-native-addressbook": "^1.2.0",

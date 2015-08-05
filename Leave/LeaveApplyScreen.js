@@ -25,51 +25,41 @@ var SceneNavBar = require('../Common/SceneNavBar');
 var SideMenu = require('react-native-side-menu');
 var NumberSelection = require('./NumberSelection');
 var Mask = require('../Common/Mask');
+var ConfirmApplyScene = require('./ConfirmApplyScene');
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
-class Menu extends React.Component{
 
-
-    render(){
-        return (
-            <View style={styles.menu}>
-                <View style={styles.avatarContainer}>
-                    <Image
-                        style={styles.avatar}
-                        source={{
-              uri: 'http://pickaface.net/includes/themes/clean/img/slide2.png'
-            }}/>
-                    <Text style={{ position: 'absolute', left: 70, top: 20 }}>Your name</Text>
-                </View>
-
-                <Text style={styles.item}>About</Text>
-                <Text style={styles.item}>Contacts</Text>
-            </View>
-        );
-    }
-}
 
 class LeaveApplyScreen extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             showStartDate:false,
-            startDate: new Date(),
+            startDate: this._removeTime(Moment(new Date())).toDate(),
             showEndDate:false,
             endDate:new Date(),
             halfDay:false,
             halfDayEnable:false,
-            noOfDays:1
+            noOfDays:1,
+            leaveType:'Paid',
         };
     }
     onStartDateChange(date){
         var halfDayEnableValue = false;
-        console.log("Difference:"+(Moment(date) > Moment(this.state.endDate)));
-        if(Moment(date) > Moment(this.state.endDate)){
+
+        var dateWithoutTime_m =  this._removeTime(Moment(date));
+        date = dateWithoutTime_m.toDate();
+        //console.log("selected date:"+date);
+        if(this.state.noOfDays > 1){
+            halfDayEnableValue = false;
+        }else{
             halfDayEnableValue = true;
         }
         this.setState({startDate: date, halfDayEnable: halfDayEnableValue});
 
+    }
+     _removeTime(date) {
+        return date.hour(0).minute(0).second(0).millisecond(0);
     }
     handleStartDateSelect(){
         this.setState({showEndDate:false});
@@ -99,31 +89,52 @@ class LeaveApplyScreen extends React.Component{
 
     }
     onDaysSelected(number){
-        this.setState({noOfDays:parseInt(number)});
+        this.setState({noOfDays:parseInt(number),showStartDate:false});
     }
     onRightClick(){
-        this.refs.sideMenu.left ? this.refs.sideMenu.closeMenu() : this.refs.sideMenu.openMenu()
+        this.refs.sideMenu.left ? this.refs.sideMenu.closeMenu() :
+            this.refs.sideMenu.openMenu();
+
 
         //this.setState({loading:true});
         //var self = this;
-        //var interval = setInterval(function () {
-        //    clearInterval(interval);
-        //    self.props.navigator.pop();}, 1000);
 
+
+    }
+    onSubmit(leaveDateList){
+
+
+        this.refs.sideMenu.closeMenu();
+        var int = setInterval(()=>{
+                clearInterval(int);
+                this.setState({loading:true});
+            },0);
+        var interval = setInterval(()=>{
+            clearInterval(interval);
+                this.props.navigator.pop();
+            }
+            , 1000);
     }
     onCancel(){
         this.props.navigator.pop();
     }
     render(){
-        var menu = <Menu />
+        var menu = <ConfirmApplyScene
+                leaveType={this.state.leaveType}
+                appliedNoOfDays={this.state.noOfDays}
+                paidLeaveBalance={this.props.paidLeaveBalance}
+                wfhLeaveBalance={this.props.wfhLeaveBalance}
+                availableCompOff={this.props.availableCompOff}
+                startDate={this.state.startDate}
+                onSubmit={this.onSubmit.bind(this)}/>
         //rightIcon={require('image!holidays')}
         return(
-            <SideMenu ref="sideMenu"  menu={menu} openMenuOffset={screenWidth - 60} touchToClose={true} menuPosition='right' disableGestures={true}>
+            <SideMenu ref="sideMenu"  menu={menu} openMenuOffset={screenWidth - 40} touchToClose={true} menuPosition='right' disableGestures={true}>
             <View style={styles.container}>
                 <SceneNavBar title="Apply Leave"
                              backgroundColor="#FFFFFF"
                              onLeftClick={this.onCancel.bind(this)} leftTitle="Cancel"
-                             rightTitle="Apply"
+                             rightTitle="Done"
                              onRightClick={this.onRightClick.bind(this)}/>
 
                 <ScrollView
@@ -145,8 +156,6 @@ class LeaveApplyScreen extends React.Component{
                             {
                                 this.state.showStartDate ?
                                 <DatePickerIOS
-                                maximumDate={new Date(2016,2,30)}
-                                minimumDate={new Date(2015,2,30)}
                                 date={this.state.startDate}
                                 onDateChange={this.onStartDateChange.bind(this)}
                                 mode="date" />
@@ -221,31 +230,6 @@ var styles = StyleSheet.create({
         flex: 1,
         backgroundColor:'#FFFFFF'
     },
-    leaveBalanceBox:{
-        backgroundColor:'#37474f',
-        height:80,
-
-        padding:20,
-        paddingTop:15
-    },
-    balanceBox:{
-        height:40,
-        alignSelf:'stretch',
-        flexDirection:'row',
-        marginTop:5
-    },
-    leaveBox:{
-        flexDirection:'column',
-        marginRight:10,
-        borderRightWidth:2,
-        borderColor:"#FFFFFF",
-        flex:1
-    },
-    wfhBox:{
-        flexDirection:'column',
-        marginRight:10,
-        flex:1
-    },
 
     button: {
         flex: 1,
@@ -257,7 +241,6 @@ var styles = StyleSheet.create({
     datePickerView:{
         marginLeft:15,
         flexDirection:'row',
-        fontWeight:'bold',
 
     },
     noOfDaysRow:{
@@ -300,24 +283,7 @@ var styles = StyleSheet.create({
         fontSize: 15,
         marginTop:2
     },
-    text: {
-        color: 'black',
-        backgroundColor: 'white',
-        fontSize: 30,
-        margin: 80
-    },
 
-
-    leaveType:{
-        alignSelf:'center',
-        color:"#FFFFFF",
-        fontSize:12
-    },
-    balance:{
-        alignSelf:'center',
-        color:"#FFFFFF",
-        fontSize:25
-    },
     scrollView: {
         backgroundColor: '#FFFFFF',
         height: 300,
@@ -336,47 +302,7 @@ var styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center'
     },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
-        alignSelf: 'center'
-    },
-    menu: {
-        flex: 1,
-        width: window.width,
-        height: window.height,
 
-        paddingLeft:60,
-        marginTop:20,
-        marginBottom:45,
-        backgroundColor:'#263238'
-
-    },
-    caption: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        alignItems: 'center',
-    },
-    avatarContainer: {
-        marginBottom: 20,
-        marginTop: 20
-    },
-    avatar: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        flex: 1
-    },
-    item: {
-        fontSize: 14,
-        fontWeight: '300',
-        paddingTop: 5,
-        color:'#FFFFFF'
-    },
-    slider: {
-        height: 10,
-        margin: 10,
-    },
 
 });
 

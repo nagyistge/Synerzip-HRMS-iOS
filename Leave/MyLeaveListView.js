@@ -19,8 +19,31 @@ var {
 
 var SlideMenu = require('../Common/SlideMenu');
 var ListLoadingIndicator = require('../Common/ListLoadingIndicator');
+var ActionSheetIOS = require('ActionSheetIOS');
+var BUTTONS = [
+
+    'Cancel Leave',
+    'Cancel',
+];
+var DESTRUCTIVE_INDEX = 0;
+var CANCEL_INDEX = 1;
 
 class MyLeaveListView extends React.Component{
+    showActionSheet(data) {
+        ActionSheetIOS.showActionSheetWithOptions({
+                options: BUTTONS,
+                cancelButtonIndex: CANCEL_INDEX,
+                destructiveButtonIndex: DESTRUCTIVE_INDEX,
+            },
+            (buttonIndex) => {
+                if(buttonIndex == 0){
+                        this.props.cancelLeave((myLeaveData)=>{
+                            this.setState({
+                                dataSource: this.state.dataSource.cloneWithRows(myLeaveData.data)});
+                    },data);
+                }
+             });
+    }
     constructor(props){
         super(props);
         this.canLoadMore = false;
@@ -44,7 +67,7 @@ class MyLeaveListView extends React.Component{
         );
     }
     componentWillReceiveProps(nextProps){
-        console.log("Receieving Props in List View::::::::::::::::::::::::"+nextProps.myLeavListData.data.length);
+        //console.log("Receieving Props in List View::::::::::::::::::::::::"+nextProps.myLeavListData.data.length);
         if(!this.props.myLeaveListLoaded) {
             this.calculateCanLoadMore(nextProps.myLeavListData);
             this.setState({
@@ -63,7 +86,7 @@ class MyLeaveListView extends React.Component{
         }else{
             this.canLoadMore = true;
         }
-        console.log("caN lOAD mORE::::::"+ this.canLoadMore);
+       // console.log("caN lOAD mORE::::::"+ this.canLoadMore);
     }
     componentDidMount(){
         this.setState({
@@ -87,10 +110,8 @@ class MyLeaveListView extends React.Component{
     }
     cancelLeave(data){
         console.log('Cancelling leave...');
-        this.props.cancelLeave((myLeaveData)=>{
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(myLeaveData.data)});
-        },data);
+        this.showActionSheet(data);
+
     }
     renderOptions(data){
         return(

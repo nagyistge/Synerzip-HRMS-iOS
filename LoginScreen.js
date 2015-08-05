@@ -5,6 +5,7 @@
 
 var React = require('react-native');
 var MainView = require('./MainView');
+var Buffer = require('buffer/').Buffer;
 var LoadingOverlay = require('./Common/LoadingOverlay');
 var {
     StyleSheet,
@@ -51,6 +52,7 @@ class LoginScreen extends React.Component{
             this.setState({isLoading: true,error:false});
             var interval = setInterval(()=>{
                 clearInterval(interval);
+                //console.log(new Buffer(this.state.employeeId).toString('base64'));
                 this.setState({isLoading: false,loggedIn:true});
             },300);
         }
@@ -81,9 +83,9 @@ class LoginScreen extends React.Component{
     }
     render(){
         StatusBarIOS.setStyle('default');
-        var enableInput = 'true';
+        var enableInput = true;
         if(this.state.isLoading){
-            enableInput = 'false';
+            enableInput = false;
         }
         return (
             !this.state.loggedIn ?
@@ -94,10 +96,10 @@ class LoginScreen extends React.Component{
                     <Image source={require('image!logo')} style={styles.logoImg}/>
                 </View>
                    <View style={styles.flowRight}>
-                       <TextInput style={styles.searchInput} placeholder='Employee Id'  editable={enableInput} clearButtonMode="always"
-                                  clearTextOnFocus="false"
+                       <TextInput style={styles.searchInput} placeholder='User Name'  editable={enableInput} clearButtonMode="always"
+                                  clearTextOnFocus={false}
                                   enablesReturnKeyAutomatically={true}
-                                  keyboardType="numbers-and-punctuation"
+                                  keyboardType="default"
                                   ref="empId"
                                   returnKeyType="next"
                                   onEndEditing={this.onEmpIdDone.bind(this)}
@@ -105,7 +107,7 @@ class LoginScreen extends React.Component{
                    </View>
                    <View style={styles.flowRight}>
                        <TextInput style={styles.searchInput} placeholder='Password' password={true} editable={enableInput}
-                                  clearTextOnFocus="false"
+                                  clearTextOnFocus={false}
                                   clearButtonMode="always"
                                   returnKeyType="go"
                                   onEndEditing={this.onPasswordDone.bind(this)}
