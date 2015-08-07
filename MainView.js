@@ -49,6 +49,11 @@ class MainView extends React.Component{
 
         return (<MoreScreen topNavigator={navigator}/>);
     }
+
+    getVacanciesScreen(){
+        var VacanciesScreen = require('./Vacancies/VacanciesScreen');
+        return (<VacanciesScreen/>);
+    }
     _renderScene(route,navigator){
         if(route.index == 1){
             var CameraScene = require('./Common/CameraScene');
@@ -102,7 +107,7 @@ class MainView extends React.Component{
                                 selectedTab: 'vacancies',
                             });
                         }}>
-                        {this.getProfileScreen()}
+                        {this.getVacanciesScreen()}
                      </TabBarIOS.Item>
                      <TabBarIOS.Item
                         title="More"

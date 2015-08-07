@@ -472,7 +472,7 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         padding:5,
-        paddingTop: 0,
+        paddingTop: 5,
     },
     searchBox:{
         marginTop:25,

@@ -97,6 +97,16 @@ var staticSuggestionData = [
         name: 'Rest Clouda',
         type:1
     },
+    {
+        empid: 16,
+        name: 'FuelQuest',
+        type:1
+    },
+    {
+        empid: 17,
+        name: 'Rx Admin',
+        type:1
+    },
 ];
 
 class DirectoryFilterOptionList extends React.Component{

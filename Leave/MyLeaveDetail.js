@@ -104,6 +104,7 @@ class MyLeaveDetail extends React.Component{
                     <SceneNavBar title="My Leave" onRightClick={this.onRightClick.bind(this)} rightTitle="Apply"
                                  leftIcon={require('image!filter')}
                                  onLeftClick={this.onLeftClick.bind(this)}/>
+                    <View style={{height:10}}><Text>{' '}</Text></View>
                     <LeaveBalanceBox paidBalance={17} wfhBalance={3}/>
                     <View style={styles.listView}>
                         <MyLeaveListView myLeavListData={this.props.myLeavListData}
@@ -121,7 +122,8 @@ class MyLeaveDetail extends React.Component{
 var styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'#FFFFFF'
+        backgroundColor:'#FFFFFF',
+        paddingTop:5
     },
     listView:{
         flex:1,
