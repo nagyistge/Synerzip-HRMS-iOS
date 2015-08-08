@@ -5,8 +5,12 @@ iPhone application for Synerzip's employee to access SynerzipHRMS (https://hrms.
 # Features
 
 - Leave Management
-- Directory
-- Profile
+- Directory Search
+- My Profile
+- Vacancies
+- Meeting Room Booking
+- Help Desk Ticket
+- Upcoming Holidays
 
 # Installation
 
