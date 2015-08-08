@@ -22,7 +22,7 @@ class HolidaysScreen extends React.Component{
     render(){
         return (
             <View style={styles.container}>
-                <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}
+                <ScrollView style={styles.scrollView}
                 contentInset={{bottom:49}}
                 automaticallyAdjustContentInsets={false}>
                     <View>

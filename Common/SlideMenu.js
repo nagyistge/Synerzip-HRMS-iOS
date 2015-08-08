@@ -6,6 +6,7 @@ var {
     PanResponder,
     StyleSheet,
     View,
+    Animated
     } = React
 
 var Dimensions = require('Dimensions')
@@ -21,7 +22,7 @@ var SlideMenu = React.createClass({
             },
             onPanResponderGrant: (evt, gestureState) => this.left = 0,
             onPanResponderMove: (evt, gestureState) => this.moveCenterView(gestureState.dx),
-            onPanResponderRelease: this.moveFinished,
+            onPanResponderRelease: (evt, gestureState) => this.moveFinished(evt, gestureState),
             onPanResponderTerminate: this.moveFinished,
         })
     },
@@ -38,7 +39,7 @@ var SlideMenu = React.createClass({
         this.center.setNativeProps({left: this.offset + this.left})
     },
 
-    moveFinished: function() {
+    moveFinished: function(evt, gestureState) {
         if (!this.center) return
 
         var offset = this.offset + this.left
@@ -52,9 +53,12 @@ var SlideMenu = React.createClass({
                 this.offset = 0
             }
         }
-
+        //Animated.decay(new Animated.ValueXY(), {   // coast to a stop
+        //    velocity: {x: gestureState.vx, y: gestureState.vy}, // velocity from gesture release
+        //    deceleration: 0.997,
+        //}).start();
         //Animation.startAnimation(this.center, 400, 0, 'easeInOut', {'anchorPoint.x': 0, 'position.x': this.offset})
-        this.center.setNativeProps({left: this.offset})
+       this.center.setNativeProps({left: this.offset})
     },
 
     render: function() {
@@ -63,15 +67,15 @@ var SlideMenu = React.createClass({
 
         return (
             <View style={[styles.container, this.props.style]}>
-                <View style={styles.left}>
+                <Animated.View style={styles.left}>
                     {leftView}
-                </View>
-                <View
+                </Animated.View>
+                <Animated.View
                     style={[styles.center, {left: this.offset}]}
                     ref={(center) => this.center = center}
                     {...this._panGesture.panHandlers}>
                     {centerView}
-                </View>
+                </Animated.View>
             </View>
         )
     },

@@ -6,7 +6,6 @@
 var React = require('react-native');
 var MainView = require('./MainView');
 var Buffer = require('buffer/').Buffer;
-var LoadingOverlay = require('./Common/LoadingOverlay');
 var {
     StyleSheet,
     ScrollView,

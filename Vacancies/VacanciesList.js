@@ -14,9 +14,12 @@ var {
     ScrollView,
     TouchableHighlight,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     ActivityIndicatorIOS,
     Image,
-    Component
+    Component,
+    Navigator,
+    LayoutAnimation
     } = React;
 
 
@@ -35,7 +38,8 @@ class VacanciesList extends React.Component{
                     rowHasChanged: (row1, row2) => row1 !== row2,
             }),
             loading:false,
-            searchOpen:false
+            searchOpen:false,
+            searchText:""
         }
     }
     componentWillReceiveProps(nextProps){
@@ -63,9 +67,10 @@ class VacanciesList extends React.Component{
         }else{
             this.canLoadMore = true;
         }
-        console.log("Can Load More::::::"+ this.canLoadMore);
+        //console.log("Can Load More::::::"+ this.canLoadMore);
     }
     renderLoadingView(){
+        console.log("Loading View:::::::::::::::::::::::::::::::::::::");
         return (
             <View style={styles.loadingContainer}>
 
@@ -79,10 +84,16 @@ class VacanciesList extends React.Component{
     loadMore(){
 
     }
+    onRowSelected(data){
+
+        this.props.topNavigator.push({name: 'JobDetail', index: 1,passProps:{
+            selectedData:data
+        }});
+    }
     renderData(data){
 
         return(
-            <TouchableHighlight>
+            <TouchableHighlight onPress={this.onRowSelected.bind(this,data)}>
                 <View>
                     <View style={styles.container}>
                         <View style={[styles.rightContainer]}>
@@ -109,50 +120,114 @@ class VacanciesList extends React.Component{
         );
     }
     onLeftClick(){
-        this.setState({searchOpen:true});
+        LayoutAnimation.create(1000, LayoutAnimation.Types.easeInEaseOut, LayoutAnimation.Properties.opacity);
+        var interval = setInterval(()=>{
+            clearInterval(interval);
+            this.setState({searchOpen:true});
+        },0);
+
     }
 
     onSearchCancel(){
+        LayoutAnimation.easeInEaseOut();
         this.setState({searchOpen:false});
     }
+    _renderScene(route,navigator){
+            this.nestedNavigator = navigator;
+            if(route.index == 0){
+                //console.log("this.props.vacanciesLoaded:"+this.props.vacanciesLoaded);
+                if(this.props.vacanciesLoaded){
+                    return (
+                        <View style={styles.listView}>
+                            <ListView
+                                dataSource={this.state.dataSource}
+                                onEndReached={this.loadMore.bind(this)}
+                                renderRow={this.renderData.bind(this)}
+                                style={styles.listView}
+                                automaticallyAdjustContentInsets={false}
+                                contentInset={{bottom:49}}
+                                scrollEventThrottle={300}
+                                onEndReachedThreshold={2}
+                                directionalLockEnabled={true}/>
+                                {
+                                    this.state.loading ?
+                                <ListLoadingIndicator />
+                                :<Text>{''}</Text>
+                                }
+                                {this.state.searchOpen
+                                    ? <View style={styles.masking} />
+                                :<Text>{''}</Text>}
+                        </View>
+                    );
+                }else{
+                    return (
+                        this.renderLoadingView()
+                    );
+                }
+
+            }else if(route.index == 1){
+                return(
+                    <View style={styles.listView}>
+                    </View>
+                );
+            }
+
+    }
+    onChangeText(text){
+        if(text != ''){
+            this.setState({searchText:text});
+            if(this.currentNestedIndex != 1) {
+                this.nestedNavigator.push({name: 'SearchVacanciesScene', index: 1});
+                this.currentNestedIndex = 1;
+            }
+        }else{
+            this.setState({searchText:text});
+            if(this.currentNestedIndex != 0) {
+
+                //console.log("List of routes:"+this.nestedNavigator.getCurrentRoutes().length);
+                this.nestedNavigator.pop();
+                //console.log("List of routes:"+this.nestedNavigator.getCurrentRoutes().length);
+                this.currentNestedIndex = 0;
+
+
+            }
+        }
+    }
     render(){
-
-
-        console.log("this.props.vacanciesLoaded:::::"+this.props.vacanciesLoaded);
         return(
             <View style={styles.container}>
             {!this.state.searchOpen
-                ? <SceneNavBar title="Vacancies" leftIcon={require('image!searchblue')}
-                onLeftClick={this.onLeftClick.bind(this)}/>
-                :<View style={styles.searchContainer}>
-                    <TextInput autoFocus={true} style={styles.searchField} placeholder="Search..." returnKeyType="search" clearButtonMode="while-editing"/>
-                    <Image source={require('image!search')} style={styles.searchImage}/>
-                    <TouchableOpacity onPress={this.onSearchCancel.bind(this)}><Text style={styles.cancelText}>Cancel</Text></TouchableOpacity>
-                 </View>}
+                ? <SceneNavBar title="Vacancies"/>
 
-                <View style={[styles.separator,{marginTop:10},{backgroundColor:'#bdbdbd'},{height: 0.5}]} />
-                {this.props.vacanciesLoaded ?
-                <View style={styles.listView}>
-                    <ListView
-                        dataSource={this.state.dataSource}
-                        onEndReached={this.loadMore.bind(this)}
-                        renderRow={this.renderData.bind(this)}
-                        style={styles.listView}
-                        automaticallyAdjustContentInsets={false}
-                        contentInset={{bottom:49}}
-                        scrollEventThrottle={300}
-                        onEndReachedThreshold={2}
-                        directionalLockEnabled={true}/>
-                    {
-                        this.state.loading ?
-                        <ListLoadingIndicator />
-                        :<Text>{''}</Text>
-                    }
-                    {this.state.searchOpen
-                        ? <View style={styles.masking} />
-                    :<Text>{''}</Text>}
-                </View>
-                : this.renderLoadingView()}
+                :<View style={styles.searchFieldContainer}>
+                    <TextInput onChangeText={this.onChangeText.bind(this)} value={this.state.searchText}
+                                autoFocus={true} style={styles.searchField} placeholder="Search..."
+                                returnKeyType="search" clearButtonMode="while-editing"/>
+                    <Image source={require('image!search')} style={styles.searchFieldImage}/>
+                    <TouchableOpacity onPress={this.onSearchCancel.bind(this)}><Text style={styles.cancelText}>Cancel</Text></TouchableOpacity>
+                 </View>
+            }
+            {
+                !this.state.searchOpen
+                    ? <View style={styles.searchContainer}>
+                        <TouchableWithoutFeedback onPress={this.onLeftClick.bind(this)}>
+                        <View style={styles.searchHolder}>
+                        <Image source={require('image!search')} style={styles.searchImage}/>
+                        <Text style={styles.searchText}>Search</Text>
+                        </View>
+                        </TouchableWithoutFeedback>
+                      </View>
+                    :<Text>{''}</Text>
+            }
+            <View style={{flex:1}}>
+            <Navigator
+            initialRoute={{name: 'Vacancies', index: 0}}
+            configureScene={(route) => Navigator.SceneConfigs.FloatFromRight}
+            renderScene={(route, navigator) =>
+                    this._renderScene(route,navigator)
+            }/>
+            </View>
+
 
             </View>
         );
@@ -210,14 +285,34 @@ var styles = StyleSheet.create({
     leaveStatus:{
         color:'#0d47a1'
     },
-    searchContainer:{
-        height:30,
-        marginTop:20,
+    searchFieldContainer:{
+        height:25,
+        marginTop:30,
         flexDirection:'row',
         alignSelf:'stretch',
         justifyContent:'center',
-        paddingLeft:0,
-        paddingTop:5,
+        paddingLeft:5,
+        marginLeft:0,
+        marginBottom:5
+    },
+    searchContainer:{
+        height:30,
+        marginTop:0,
+        flexDirection:'row',
+        alignSelf:'stretch',
+        justifyContent:'center',
+        paddingLeft:8,
+        paddingTop:4,
+        paddingBottom:4,
+        paddingRight:8,
+        backgroundColor:"#dddddd"
+    },
+    searchHolder:{
+        backgroundColor:"#FFFFFF",
+        flex:1,
+        borderRadius:3,
+        flexDirection:'row',
+        justifyContent:'center'
     },
     masking: {
         position: 'absolute',
@@ -238,18 +333,28 @@ var styles = StyleSheet.create({
     searchField:{
         borderWidth:1,
         borderColor:"#cfd8dc",
-        height: 25,
+        height: 30,
         paddingLeft:25,
         color:"#b0bec5",
         width:screenWidth - 80,
-
+        borderRadius:3,
+    },
+    searchFieldImage:{
+        position:'absolute',
+        top:5,
+        left:15,
+        width:16,
+        height:16
     },
     searchImage:{
-        position:'absolute',
-        top:8,
-        left:8,
-        width:20,
-        height:20
+        alignSelf:'center',
+        height:16,
+        width:16,
+    },
+    searchText:{
+        alignSelf:'center',
+        fontSize:15,
+        color:"#9e9e9e"
     }
 
 

@@ -78,7 +78,7 @@ var styles = StyleSheet.create({
     leftTitleBox:{
         left:0,
         position:'absolute',
-        paddingLeft:10,
+        paddingLeft:5,
         marginTop:6
     },
     leftTitle:{
@@ -86,8 +86,8 @@ var styles = StyleSheet.create({
         color:'#2196f3'
     },
     icon:{
-      width:32,
-      height:32
+      width:35,
+      height:35
     },
     buttonBox:{
         flexDirection:'row'

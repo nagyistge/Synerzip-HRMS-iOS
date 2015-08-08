@@ -1,0 +1,6 @@
+framework module Pods_SynerzipHRMS {
+  umbrella header "Pods-SynerzipHRMS-umbrella.h"
+
+  export *
+  module * { export * }
+}
