@@ -102,7 +102,7 @@ class LoginScreen extends React.Component{
                                   ref="empId"
                                   returnKeyType="next"
                                   onEndEditing={this.onEmpIdDone.bind(this)}
-                                  value={this.state.employeeId} onChange={this.onEmpIdChange.bind(this)}/>
+                                  initialValue={this.state.employeeId} onChange={this.onEmpIdChange.bind(this)}/>
                    </View>
                    <View style={styles.flowRight}>
                        <TextInput style={styles.searchInput} placeholder='Password' password={true} editable={enableInput}
@@ -111,7 +111,7 @@ class LoginScreen extends React.Component{
                                   returnKeyType="go"
                                   onEndEditing={this.onPasswordDone.bind(this)}
                                   ref="password"
-                                  value={this.state.password}
+                                    initialValue={this.state.password}
                                   onChange={this.onPasswordChange.bind(this)}/>
                    </View>
                    <Image source={this.props.images.hrms} style={styles.image}/>
@@ -141,7 +141,7 @@ class LoginScreen extends React.Component{
 
 var styles = StyleSheet.create({
     container: {
-        flex:1
+        flex:1,
     },
     loginBox:{
         flexDirection: 'column',

@@ -48,7 +48,7 @@ class LeaveBalanceBox extends React.Component{
 
 var styles = StyleSheet.create({
     leaveBalanceBox:{
-        backgroundColor:'#37474f',
+        backgroundColor:'#78909c',
         height:80,
         padding:20,
         paddingTop:15

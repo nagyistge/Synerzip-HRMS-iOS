@@ -209,7 +209,7 @@ var styles = StyleSheet.create({
 
     },
     leaveBalanceBox:{
-        backgroundColor:'#37474f',
+        backgroundColor:'#78909c',
         padding:10,
 
     },

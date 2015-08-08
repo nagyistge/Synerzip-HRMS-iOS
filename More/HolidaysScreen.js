@@ -122,10 +122,10 @@ var styles = StyleSheet.create({
     },
     category:{
         padding:10,
-        backgroundColor:"#e0e0e0",
+        backgroundColor:"#78909c",
     },
     categoryText:{
-        color:"#616161",
+        color:"#FFFFFF",
         fontSize:15,
         fontWeight:'400'
     },
