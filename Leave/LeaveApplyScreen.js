@@ -17,9 +17,11 @@ var {
     View,
     Image,
     TouchableHighlight,
+    TouchableOpacity,
     ActivityIndicatorIOS,
     Image,
-    Component
+    Component,
+    LayoutAnimation
     } = React;
 var SceneNavBar = require('../Common/SceneNavBar');
 var SideMenu = require('react-native-side-menu');
@@ -55,6 +57,7 @@ class LeaveApplyScreen extends React.Component{
         }else{
             halfDayEnableValue = true;
         }
+
         this.setState({startDate: date, halfDayEnable: halfDayEnableValue});
 
     }
@@ -62,6 +65,7 @@ class LeaveApplyScreen extends React.Component{
         return date.hour(0).minute(0).second(0).millisecond(0);
     }
     handleStartDateSelect(){
+        LayoutAnimation.easeInEaseOut();
         this.setState({showEndDate:false});
         this.setState({showStartDate:!this.state.showStartDate});
     }
@@ -76,11 +80,13 @@ class LeaveApplyScreen extends React.Component{
     }
 
     handleEndDateSelect(){
+        LayoutAnimation.easeInEaseOut();
         this.setState({showStartDate:false});
         this.setState({showEndDate:!this.state.showEndDate});
     }
 
     onCommentFocus(){
+        LayoutAnimation.easeInEaseOut();
         this.setState({showStartDate:false});
         this.setState({showEndDate:false});
     }
@@ -89,6 +95,7 @@ class LeaveApplyScreen extends React.Component{
 
     }
     onDaysSelected(number){
+        LayoutAnimation.easeInEaseOut();
         this.setState({noOfDays:parseInt(number),showStartDate:false});
     }
     onRightClick(){
@@ -144,14 +151,18 @@ class LeaveApplyScreen extends React.Component{
                         </View>
                         <View style={styles.datePickerView}>
                             <Text style={styles.dateLabel}>Start Date</Text>
-                            <TouchableHighlight style={styles.button} underlayColor='#eceff1' onPress={this.handleStartDateSelect.bind(this)}>
+                            <TouchableOpacity   onPress={this.handleStartDateSelect.bind(this)}>
                                 {
                                     this.state.showStartDate ?
-                                <Text style={styles.selectedDateLabelPickerOpen}>{Moment(this.state.startDate).format("MMM Do YY")}</Text>
+                                <View style={styles.button}>
+                                    <Text style={styles.selectedDateLabelPickerOpen}>{Moment(this.state.startDate).format("MMM Do YY")}</Text>
+                                </View>
                                     :
-                                <Text style={styles.selectedDateLabel}>{Moment(this.state.startDate).format("MMM Do YY")}</Text>
+                                <View style={styles.button}>
+                                    <Text style={styles.selectedDateLabel}>{Moment(this.state.startDate).format("MMM Do YY")}</Text>
+                                </View>
                                 }
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                             {
                                 this.state.showStartDate ?
@@ -201,7 +212,7 @@ class LeaveApplyScreen extends React.Component{
                                         <Text style={[styles.dateLabel,{marginTop:10}]}>Half Day</Text>
                                         <View style={[styles.button,{marginBottom: 10,marginTop:5}]}>
                                             <SwitchIOS
-                                            onValueChange={(value) => {this.setState({halfDay: value}); this.onCommentFocus()}}
+                                            onValueChange={(value) => {LayoutAnimation.easeInEaseOut();this.setState({halfDay: value}); this.onCommentFocus()}}
                                             value={this.state.halfDay} />
                                         </View>
                                     </View> : <Text style={{height:0}}></Text>

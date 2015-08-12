@@ -195,6 +195,7 @@ class DirectoryFilterOptionList extends React.Component{
                 contentInset={{bottom:49}}
                 keyboardShouldPersistTaps={false}
                 keyboardDismissMode='interactive'
+                automaticallyAdjustContentInsets={false}
             />
             </View>
         );
@@ -253,7 +254,7 @@ var styles = StyleSheet.create({
         color: 'white'
     },
     text: {
-        color: '#9e9e9e',
+        color: '#FFFFFF',
         paddingHorizontal: 8,
         fontSize: 16
     },
@@ -279,7 +280,7 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         padding: 6,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#78909c',
     }
 });
 

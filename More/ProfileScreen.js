@@ -94,9 +94,7 @@ class ProfileScreen extends React.Component {
                     automaticallyAdjustContentInsets={false}>
                     <View>
                         <View style={styles.infoBox}>
-                            <View style={styles.category}>
-                                <Text style={styles.categoryText}>Personal Details</Text>
-                            </View>
+
                             <View style={styles.property}>
                                  <Text style={[styles.propertyText,{color:"#37474f"}]}>Employee ID: 1111</Text>
                             </View>
@@ -246,6 +244,7 @@ var styles = StyleSheet.create({
         flex: 1,
         width: window.width,
         height: window.height - 30,
+        marginTop:1
 
     },
     infoBox:{
@@ -254,10 +253,10 @@ var styles = StyleSheet.create({
     },
     category:{
         padding:10,
-        backgroundColor:"#e0e0e0",
+        backgroundColor:"#78909c",
     },
     categoryText:{
-        color:"#616161",
+        color:"#FFFFFF",
         fontSize:15,
         fontWeight:'400'
     },

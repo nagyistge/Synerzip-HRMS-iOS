@@ -38,20 +38,58 @@ class MyLeaveListView extends React.Component{
             (buttonIndex) => {
                 if(buttonIndex == 0){
                         this.props.cancelLeave((myLeaveData)=>{
+                            this.currentDataList = myLeaveData.data;
                             this.setState({
                                 dataSource: this.state.dataSource.cloneWithRows(myLeaveData.data)});
                     },data);
+                }else if(buttonIndex == 1){
+
+                    var dataBlob = [];
+                    if(this.currentDataList && this.currentDataList.length == 0){
+                        this.currentDataList = this.props.myLeavListData.data;
+                    }
+                    console.log("this.currentDataList:::"+this.currentDataList);
+                    var dataList =  this.currentDataList;
+                    for(var index =0 ; index < dataList.length; index++){
+                    var temp = dataList[index];
+                    if(temp.id == data.id){
+                        var newData = {
+                            date:data.date,
+                            type:data.type,
+                            status:data.status,
+                            noOfDays:data.noOfDays,
+                            cancelOperation:true,
+                            id:data.id
+                        };
+                        dataBlob.push(newData);
+
+                    }else{
+                        dataBlob.push(temp);
+                    }
+                    }
+                    this.setState({
+                            dataSource: this.state.dataSource.cloneWithRows(dataBlob)});
+
                 }
              });
     }
     constructor(props){
         super(props);
         this.canLoadMore = false;
+        this.currentDataList = this.props.myLeavListData.data;
         this.state = {
             dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
+                rowHasChanged: (row1, row2) =>  {
+                if(row1.cancelOperation !== row2.cancelOperation){
+                        return true;
+                }
+                if( row1.status !== row2.status){
+                    return true;
+                }
+                 return false;
+              },
             }),
-            loading:false
+            loading:false,
         }
     }
 
@@ -102,6 +140,7 @@ class MyLeaveListView extends React.Component{
 
         //Load More Data
         this.props.loadMoreData((myLeaveData)=>{
+            this.currentDataList = myLeaveData.data;
             this.calculateCanLoadMore(myLeaveData);
             this.setState({
                 loading:false,
@@ -109,7 +148,7 @@ class MyLeaveListView extends React.Component{
         });
     }
     cancelLeave(data){
-        console.log('Cancelling leave...');
+
         this.showActionSheet(data);
 
     }
@@ -175,6 +214,8 @@ class MyLeaveListView extends React.Component{
         }
         return (
         <SlideMenu
+            data={data}
+            cancelAction={data.cancelOperation}
             renderLeftView = {() => this.renderOptions(data)}
             renderCenterView = {() => this.getCenter(data)} />
         );
@@ -214,7 +255,7 @@ var styles = StyleSheet.create({
 
 
     listView: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'transparent',
     },
     separator: {
         height: 1,

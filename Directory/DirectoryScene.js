@@ -416,8 +416,9 @@ class DirectoryScene extends React.Component {
         if(route.index == 0){
             return (
                 <View style={styles.container}>
+                     <SceneNavBar title="Directory"/>
                      <View style={styles.searchBox}>
-                        <TextInput style={styles.searchField} placeholder='Search...'
+                        <TextInput style={styles.searchField} placeholder='Search'
                             onChangeText={this.onChangeText.bind(this)}
                             value={this.state.searchText} clearButtonMode="always"
                             ref={(field)=>this.searchField = field}
@@ -464,28 +465,37 @@ var styles = StyleSheet.create({
     listView:{
       flex:1,
       backgroundColor:'#f5f5f5',
-      marginTop:5,
+
     },
 
     container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
-        padding:5,
+
         paddingTop: 5,
     },
     searchBox:{
-        marginTop:25,
-        height:30,
-        width:screenWidth
+        marginTop:0,
+        flexDirection:'row',
+        alignSelf:'stretch',
+        justifyContent:'center',
+        paddingLeft:8,
+        paddingTop:4,
+        paddingBottom:4,
+        paddingRight:8,
+        backgroundColor:"#dddddd"
     },
     searchField:{
         borderWidth:1,
         borderColor:"#cfd8dc",
-        height: 30,
+        height: 25,
         paddingLeft:25,
         color:"#b0bec5",
-        width:screenWidth - 10
+        width:screenWidth - 10,
+        fontSize:15,
+        borderRadius:3,
+        backgroundColor: '#FFFFFF',
     },
     options:{
         padding:5,
@@ -509,10 +519,11 @@ var styles = StyleSheet.create({
     },
     searchImage:{
         position:'absolute',
-        top:5,
-        left:5,
-        width:20,
-        height:20
+        top:8,
+        left:10,
+        width:16,
+        height:16,
+        backgroundColor: '#FFFFFF',
     }
 
 

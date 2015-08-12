@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LIAppId</key>
-	<string>4574141</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDocumentTypes</key>
@@ -16,6 +14,16 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.adobe.pdf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array/>
+			<key>CFBundleTypeName</key>
+			<string>word document</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.microsoft.word.doc</string>
 			</array>
 		</dict>
 	</array>
@@ -53,6 +61,8 @@
 	<string>494869957347010</string>
 	<key>FacebookDisplayName</key>
 	<string>SynerzipHRMS</string>
+	<key>LIAppId</key>
+	<string>4574141</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

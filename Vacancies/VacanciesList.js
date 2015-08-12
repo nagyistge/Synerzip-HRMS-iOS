@@ -19,7 +19,8 @@ var {
     Image,
     Component,
     Navigator,
-    LayoutAnimation
+    LayoutAnimation,
+    Animated
     } = React;
 
 
@@ -39,7 +40,8 @@ class VacanciesList extends React.Component{
             }),
             loading:false,
             searchOpen:false,
-            searchText:""
+            searchText:"",
+            mask:false
         }
     }
     componentWillReceiveProps(nextProps){
@@ -84,11 +86,49 @@ class VacanciesList extends React.Component{
     loadMore(){
 
     }
-    onRowSelected(data){
-
-        this.props.topNavigator.push({name: 'JobDetail', index: 1,passProps:{
-            selectedData:data
-        }});
+    //getJobDetailRoute(){
+    //    var currentLength = this.props.topNavigator.getCurrentRoutes().length;
+    //    console.log("currentlength::::::::"+currentLength);
+    //    var routeArray = this.props.topNavigator.getCurrentRoutes();
+    //    var routeToGo = null;
+    //    for(var index =0 ; index < routeArray.length; index++){
+    //        var route = routeArray[index];
+    //        if(route.index == 1){
+    //            routeToGo = route;
+    //            break;
+    //        }
+    //    }
+    //    return routeToGo;
+    //
+    //}
+    onRowSelected(data)
+    {
+        this.props.topNavigator.push({
+            name: 'JobDetail', index: 1, forUpload: this.props.forUpload,
+            onUploadSelect: this.props.onUploadSelect,
+            passProps: {
+                selectedData: data
+            }
+        });
+        //var routeToGo = this.getJobDetailRoute();
+        //if (routeToGo == null) {
+        //    console.log("Job Detail::::::::New Route");
+        //    this.props.topNavigator.push({
+        //        name: 'JobDetail', index: 1, forUpload: this.props.forUpload,
+        //        onUploadSelect: this.props.onUploadSelect,
+        //        passProps: {
+        //            selectedData: data
+        //        }
+        //    });
+        //}else{
+        //    console.log("Job Detail::::::::Existing Route");
+        //    routeToGo.passProps={
+        //        selectedData: data
+        //    };
+        //    routeToGo.forUpload= this.props.forUpload;
+        //    routeToGo.onUploadSelect = this.props.onUploadSelect;
+        //    this.props.topNavigator.popToRoute(routeToGo);
+        //}
     }
     renderData(data){
 
@@ -120,17 +160,19 @@ class VacanciesList extends React.Component{
         );
     }
     onLeftClick(){
-        LayoutAnimation.create(1000, LayoutAnimation.Types.easeInEaseOut, LayoutAnimation.Properties.opacity);
-        var interval = setInterval(()=>{
-            clearInterval(interval);
-            this.setState({searchOpen:true});
-        },0);
+         LayoutAnimation.easeInEaseOut();
+         this.setState({searchOpen:true});
+         var interval =setInterval(()=>{
+                clearInterval(interval);
+                this.setState({mask:true});
+             },0);
 
     }
 
     onSearchCancel(){
         LayoutAnimation.easeInEaseOut();
         this.setState({searchOpen:false});
+        this.setState({mask:false});
     }
     _renderScene(route,navigator){
             this.nestedNavigator = navigator;
@@ -154,7 +196,7 @@ class VacanciesList extends React.Component{
                                 <ListLoadingIndicator />
                                 :<Text>{''}</Text>
                                 }
-                                {this.state.searchOpen
+                                {this.state.mask
                                     ? <View style={styles.masking} />
                                 :<Text>{''}</Text>}
                         </View>
@@ -166,9 +208,10 @@ class VacanciesList extends React.Component{
                 }
 
             }else if(route.index == 1){
+                var VacanciesSearchResultScreen = require('./VacanciesSearchResultScreen');
                 return(
-                    <View style={styles.listView}>
-                    </View>
+                    <VacanciesSearchResultScreen forUpload={this.props.forUpload}>
+                    </VacanciesSearchResultScreen>
                 );
             }
 
@@ -177,7 +220,7 @@ class VacanciesList extends React.Component{
         if(text != ''){
             this.setState({searchText:text});
             if(this.currentNestedIndex != 1) {
-                this.nestedNavigator.push({name: 'SearchVacanciesScene', index: 1});
+                this.nestedNavigator.push({name: 'VacanciesSearchResultScreen', index: 1});
                 this.currentNestedIndex = 1;
             }
         }else{
@@ -193,30 +236,37 @@ class VacanciesList extends React.Component{
             }
         }
     }
+    backToUpload(){
+        this.props.backToUpload();
+    }
     render(){
+        var header = <SceneNavBar title="Vacancies"/>;
+        if(this.props.forUpload){
+            header = <SceneNavBar title="Vacancies" leftIcon={require('image!back')} leftTitle='Upload' onLeftClick={this.backToUpload.bind(this)}/>;
+        }
         return(
             <View style={styles.container}>
             {!this.state.searchOpen
-                ? <SceneNavBar title="Vacancies"/>
+                ? <View style={{marginBottom:10}}>{header}</View>
 
-                :<View style={styles.searchFieldContainer}>
-                    <TextInput onChangeText={this.onChangeText.bind(this)} value={this.state.searchText}
-                                autoFocus={true} style={styles.searchField} placeholder="Search..."
+                :<Animated.View style={styles.searchFieldContainer}>
+                    <TextInput  onChangeText={this.onChangeText.bind(this)} value={this.state.searchText}
+                                autoFocus={true} style={styles.searchField} placeholder="Search"
                                 returnKeyType="search" clearButtonMode="while-editing"/>
                     <Image source={require('image!search')} style={styles.searchFieldImage}/>
                     <TouchableOpacity onPress={this.onSearchCancel.bind(this)}><Text style={styles.cancelText}>Cancel</Text></TouchableOpacity>
-                 </View>
+                 </Animated.View>
             }
             {
                 !this.state.searchOpen
-                    ? <View style={styles.searchContainer}>
+                    ? <Animated.View style={styles.searchContainer}>
                         <TouchableWithoutFeedback onPress={this.onLeftClick.bind(this)}>
                         <View style={styles.searchHolder}>
                         <Image source={require('image!search')} style={styles.searchImage}/>
                         <Text style={styles.searchText}>Search</Text>
                         </View>
                         </TouchableWithoutFeedback>
-                      </View>
+                      </Animated.View>
                     :<Text>{''}</Text>
             }
             <View style={{flex:1}}>
@@ -287,13 +337,13 @@ var styles = StyleSheet.create({
     },
     searchFieldContainer:{
         height:25,
-        marginTop:30,
+        marginTop:35,
         flexDirection:'row',
         alignSelf:'stretch',
         justifyContent:'center',
         paddingLeft:5,
         marginLeft:0,
-        marginBottom:5
+        marginBottom:0
     },
     searchContainer:{
         height:30,
@@ -325,7 +375,7 @@ var styles = StyleSheet.create({
     },
     cancelText:{
         fontSize:18,
-        color:'#2196f3',
+        color:'#2979ff',
         alignSelf:'flex-end',
         marginLeft:10
 
@@ -333,9 +383,10 @@ var styles = StyleSheet.create({
     searchField:{
         borderWidth:1,
         borderColor:"#cfd8dc",
-        height: 30,
+        height: 25,
         paddingLeft:25,
         color:"#b0bec5",
+        fontSize:15,
         width:screenWidth - 80,
         borderRadius:3,
     },

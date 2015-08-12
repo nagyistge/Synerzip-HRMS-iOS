@@ -140,18 +140,19 @@ var styles = StyleSheet.create({
         marginTop:10
     },
     searchInput: {
-        height: 36,
+        height: 25,
         padding: 4,
         marginTop:10,
         marginBottom:0,
         marginLeft:20,
         marginRight:20,
-        fontSize: 18,
+        fontSize: 15,
         borderWidth: 1,
         borderColor: '#E8E7E7',
         alignSelf: 'stretch',
         justifyContent: 'center',
         color: '#B5B1B1',
+        borderRadius:3
     },
 
 

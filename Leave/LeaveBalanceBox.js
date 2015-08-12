@@ -30,13 +30,13 @@ class LeaveBalanceBox extends React.Component{
                 <View style={styles.balanceBox}>
                     <TouchableOpacity>
                         <View style={styles.leaveBox} >
-                            <Text style={styles.balance}>{this.props.paidBalance}/21</Text>
+                            <Text style={styles.balance}>{this.props.paidBalance} / 21</Text>
                             <Text style={styles.leaveType}>Paid Leave</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <View style={styles.wfhBox} >
-                            <Text style={styles.balance}>{this.props.wfhBalance}/3</Text>
+                            <Text style={styles.balance}>{this.props.wfhBalance} / 3</Text>
                             <Text style={styles.leaveType}>Work From Home</Text>
                         </View>
                     </TouchableOpacity>

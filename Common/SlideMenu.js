@@ -6,7 +6,8 @@ var {
     PanResponder,
     StyleSheet,
     View,
-    Animated
+    Animated,
+    LayoutAnimation
     } = React
 
 var Dimensions = require('Dimensions')
@@ -20,14 +21,17 @@ var SlideMenu = React.createClass({
                 return Math.abs(gestureState.dx) > Math.abs(gestureState.dy)
                     && Math.abs(gestureState.dx) > 20
             },
+
+            onPanResponderTerminationRequest:(evt, gestureState) => false,
             onPanResponderGrant: (evt, gestureState) => this.left = 0,
-            onPanResponderMove: (evt, gestureState) => this.moveCenterView(gestureState.dx),
+            onPanResponderMove: (evt, gestureState) => this.moveCenterView(gestureState),
             onPanResponderRelease: (evt, gestureState) => this.moveFinished(evt, gestureState),
             onPanResponderTerminate: this.moveFinished,
         })
     },
 
-    moveCenterView: function(left) {
+    moveCenterView: function(gestureState) {
+        var left = gestureState.dx;
         if (!this.center) return
 
         if ((this.offset + left) < 0) {
@@ -53,15 +57,23 @@ var SlideMenu = React.createClass({
                 this.offset = 0
             }
         }
-        //Animated.decay(new Animated.ValueXY(), {   // coast to a stop
-        //    velocity: {x: gestureState.vx, y: gestureState.vy}, // velocity from gesture release
-        //    deceleration: 0.997,
-        //}).start();
+
         //Animation.startAnimation(this.center, 400, 0, 'easeInOut', {'anchorPoint.x': 0, 'position.x': this.offset})
+        LayoutAnimation.spring();
        this.center.setNativeProps({left: this.offset})
     },
 
     render: function() {
+        if(this.props.cancelAction){
+            this.props.data.cancelOperation = false;
+            console.log('Cancelling leave..in Side menu......');
+            var interval = setInterval(()=>{
+                    clearInterval(interval);
+                    LayoutAnimation.spring();
+                    this.center.setNativeProps({left: 0})
+                },0);
+
+        }
         var centerView = this.props.renderCenterView ? this.props.renderCenterView() : null
         var leftView = this.props.renderLeftView ? this.props.renderLeftView() : null
 

@@ -100,6 +100,8 @@ var dataList = [
 class MyLeaveScreen extends React.Component{
     constructor(props){
         super(props);
+        //dummy id
+        this.jobIdIndex = 10;
         this.startIndex = 0;
         this.state = {
             profilePic:null,
@@ -147,70 +149,70 @@ class MyLeaveScreen extends React.Component{
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
         dataArray.push({
             date:'Fri, 17 Jul 2015',
             type:'Paid Leave',
             status:'pending',
             noOfDays:1,
-            id:9
+            id:this.jobIdIndex++
         });
 
         var intervalObj = setInterval(()=>{

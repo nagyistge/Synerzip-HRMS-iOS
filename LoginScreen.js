@@ -16,6 +16,7 @@ var {
     TouchableHighlight,
     ActivityIndicatorIOS,
     Image,
+    AlertIOS,
     Component,
     StatusBarIOS
     } = React;
@@ -33,6 +34,7 @@ class LoginScreen extends React.Component{
 
         };
     }
+
     validate(){
         if(this.state.employeeId == null || this.state.employeeId == '' || this.state.employeeId == '111'){
             this.setState({error: true,errorMsg:'Invalid Employee Id'});
@@ -82,6 +84,7 @@ class LoginScreen extends React.Component{
     }
     render(){
         StatusBarIOS.setStyle('default');
+
         var enableInput = true;
         if(this.state.isLoading){
             enableInput = false;
@@ -134,7 +137,7 @@ class LoginScreen extends React.Component{
                 </View>
 
             </View>
-            : <MainView />
+            : <MainView receivedUrl={this.props.receivedUrl} onUploadCancel={this.props.onUploadCancel}/>
         );
     }
 }
@@ -165,7 +168,7 @@ var styles = StyleSheet.create({
         marginTop:10
     },
     searchInput: {
-        height: 36,
+        height: 30,
         padding: 4,
         marginTop:10,
         marginBottom:0,
@@ -177,6 +180,7 @@ var styles = StyleSheet.create({
         alignSelf: 'stretch',
         justifyContent: 'center',
         color: '#B5B1B1',
+        borderRadius:3
     },
     button: {
         height: 36,

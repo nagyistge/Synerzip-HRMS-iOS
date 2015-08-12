@@ -83,7 +83,7 @@ var styles = StyleSheet.create({
     },
     leftTitle:{
         fontSize:18,
-        color:'#2196f3'
+        color:'#2979ff'
     },
     icon:{
       width:35,
@@ -95,13 +95,13 @@ var styles = StyleSheet.create({
     rightTitleBox:{
         right:0,
         position:'absolute',
-        paddingRight:10,
+        paddingRight:5,
         marginTop:6
 
     },
     rightTitle:{
         fontSize:18,
-        color:'#2196f3'
+        color:'#2979ff'
     }
 
 

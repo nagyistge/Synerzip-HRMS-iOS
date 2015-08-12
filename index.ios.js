@@ -11,6 +11,7 @@ var {
     ActivityIndicatorIOS,
     Image,
     Component,
+    AlertIOS,
     LinkingIOS
     } = React;
 
@@ -26,19 +27,33 @@ class HelloWorld extends React.Component{
     }
 }
 class SynerzipHRMS extends React.Component{
+    constructor(props){
+        super(props);
+        this.state ={
+            receivedUrl:null
+        }
+    }
     componentDidMount() {
-        LinkingIOS.addEventListener('url', this._processURL);
+
+        var url = LinkingIOS.popInitialURL();
+        this.setState({receivedUrl:url});
+        LinkingIOS.addEventListener('url', this._processURL.bind(this));
     }
     componentWillUnmount() {
         LinkingIOS.removeEventListener('url', this._processURL);
     }
+    onUploadCancel(){
+        this.setState({receivedUrl: null});
+    }
     _processURL(e){
+        //AlertIOS.alert("Index JS:"+e.url);
+        this.setState({receivedUrl: e.url});
         console.log("URL::::::::::::::::::"+ e.url);
     }
     render (){
         var LoginScreen = require('./LoginScreen');
         return (
-            <LoginScreen images={images}/>
+            <LoginScreen images={images} receivedUrl={this.state.receivedUrl} onUploadCancel={this.onUploadCancel.bind(this)}/>
         );
     }
 }

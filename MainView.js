@@ -13,6 +13,7 @@ var {
     ActivityIndicatorIOS,
     Navigator,
     Component,
+    AlertIOS,
     TabBarIOS,
     StatusBarIOS
     } = React;
@@ -25,6 +26,19 @@ class MainView extends React.Component{
             notifCount: 2,
         }
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.receivedUrl){
+            this.setState({selectedTab:'vacancies'});
+        }
+    }
+
+    componentDidMount(){
+        //AlertIOS.alert(this.props.receivedUrl);
+        if(this.props.receivedUrl){
+            this.setState({selectedTab:'vacancies'});
+        }
+    }
+
     getMyLeaveScreen(){
         var MyLeaveScreen = require('./Leave/MyLeaveScreen');
         return(
@@ -50,9 +64,10 @@ class MainView extends React.Component{
         return (<MoreScreen topNavigator={navigator}/>);
     }
 
+
     getVacanciesScreen(){
         var VacanciesScreen = require('./Vacancies/VacanciesScreen');
-        return (<VacanciesScreen/>);
+        return (<VacanciesScreen receivedUrl={this.props.receivedUrl} onUploadCancel={this.props.onUploadCancel}/>);
     }
     _renderScene(route,navigator){
         if(route.index == 1){

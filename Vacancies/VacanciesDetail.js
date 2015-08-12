@@ -10,6 +10,7 @@ var {
     View,
     ScrollView,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Navigator,
     Image,
     Animated,
@@ -20,6 +21,7 @@ var {
 var simpleAuthClient = require('react-native-simple-auth');
 var secret = require('../Common/secret');
 var SceneNavBar = require('../Common/SceneNavBar');
+var Mask = require('../Common/Mask');
 var Dimensions = require('Dimensions');
 var screenWidth = Dimensions.get('window').width;
 var KDSocialShare = require('NativeModules').KDSocialShare;
@@ -30,13 +32,18 @@ class VacanciesDetail extends React.Component{
         this.state = {
             shareOpen:false,
             bounceValue: new Animated.Value(0),
+            mask:false
         };
     }
     componentWillMount() {
-        simpleAuthClient.configure(secret);
+        //simpleAuthClient.configure(secret);
     }
     onBack(){
-        this.props.topNavigator.pop();
+        var interval = setInterval(()=>{
+                clearInterval(interval);
+                this.props.topNavigator.pop();
+            },0);
+
     }
     onShareOpen(){
         this.setState({shareOpen:true});
@@ -57,7 +64,8 @@ class VacanciesDetail extends React.Component{
             this.state.bounceValue,                 // Animate `bounceValue`
             {
                 toValue: 0,                         // Animate to smaller size
-                friction: 10,
+                friction: 7,
+                tension:30
                 // Bouncier spring
             }
         ).start(()=>{
@@ -67,13 +75,15 @@ class VacanciesDetail extends React.Component{
     }
     onFacebookClick(){
         console.log("Facebook Login:::::::::::::::");
+        this.setState({mask:true});
         KDSocialShare.shareOnFacebook({
-                'text':'Global democratized marketplace for art',
-                'link':'https://artboost.com/',
-                'imagelink':'https://artboost.com/apple-touch-icon-144x144.png'
+                'text':this.props.selectedData.title,
+                'link':this.props.selectedData.link,
+                'image': 'logo',
             },
             (results) => {
                 console.log(results);
+                this.setState({mask:false});
             }
         );
     }
@@ -92,39 +102,167 @@ class VacanciesDetail extends React.Component{
 
     }
     onTwitterClick(){
-        console.log("Twiitteeer Login:::::::::::::::");
+        console.log("Twiitteeer Login:::::::::::::::")
+        this.setState({mask:true});
         KDSocialShare.tweet({
-                'text':'Global democratized marketplace for art',
-                'link':'https://artboost.com/',
+                'text':this.props.selectedData.title,
+                'link':this.props.selectedData.link,
                 //'imagelink':'https://artboost.com/apple-touch-icon-144x144.png',
                 //or use image
                 'image': 'logo',
             },
             (results) => {
                 console.log(results);
+                this.setState({mask:false});
             }
         );
     }
+    onUploadSelection(){
+        this.props.onUploadSelect(this.props.selectedData);
+    }
     render(){
-        console.log("Selected Data:::::"+this.props.selectedData);
+
+        var role = this.props.selectedData.role.map((value,index)=>{
+                return (
+                <Text style={[styles.infoValue,{textAlign:'justify'}]}>
+                    <Text style={{color:"#0d47a1"}}>{index+1}{'. '}</Text>{value}
+                </Text>);
+            });
+
+        var technicalMustHave = null;
+        var technicalNiceToHave = null;
+        var nonTechnical = null;
+        var notes = null;
+        if(this.props.selectedData.skills.technical){
+            if(this.props.selectedData.skills.technical.mustHave){
+                technicalMustHave = this.props.selectedData.skills.technical.mustHave.map((value,index)=>{
+                    return (
+                        <Text style={[styles.infoValue,{textAlign:'justify'}]}>
+                            <Text style={{color:"#0d47a1"}}>{index+1}{'. '}</Text>{value}
+                        </Text>);
+                        });
+            }
+            if(this.props.selectedData.skills.technical.niceToHave){
+                technicalNiceToHave = this.props.selectedData.skills.technical.niceToHave.map((value,index)=>{
+                    return (
+                         <Text style={[styles.infoValue,{textAlign:'justify'}]}>
+                            <Text style={{color:"#0d47a1"}}>{index+1}{'. '}</Text>{value}
+                        </Text>);
+                    });
+            }
+        }
+
+        if(this.props.selectedData.skills.nonTechnical){
+
+            nonTechnical = this.props.selectedData.skills.nonTechnical.map((value,index)=>{
+                    return (
+                                <Text style={[styles.infoValue,{textAlign:'justify'}]}>
+                        <Text style={{color:"#0d47a1"}}>{index+1}{'. '}</Text>{value}
+                    </Text>);
+                    });
+
+        }
+        if(this.props.selectedData.extraInfo){
+
+            notes = this.props.selectedData.extraInfo.map((value,index)=>{
+                return (
+                    <Text style={[styles.infoValue,{textAlign:'justify'}]}>
+                        <Text style={{color:"#0d47a1"}}>{index+1}{'. '}</Text>{value}
+                    </Text>);
+            });
+
+        }
+        var header = <SceneNavBar title="Job Detail" leftIcon={require('image!back')} leftTitle="Back" rightIcon={require('image!upload')}
+                    onLeftClick={this.onBack.bind(this)} onRightClick={this.onShareOpen.bind(this)}/>;
+        if(this.props.forUpload){
+            header = <SceneNavBar title="Job Detail" leftIcon={require('image!back')} leftTitle="Back" rightTitle='Select'
+            onLeftClick={this.onBack.bind(this)} onRightClick={this.onUploadSelection.bind(this)}/>;
+        }
         return (
             <View style={styles.container}>
-                <SceneNavBar title="Job Detail" leftIcon={require('image!back')} leftTitle="Back" rightIcon={require('image!upload')}
-                            onLeftClick={this.onBack.bind(this)} onRightClick={this.onShareOpen.bind(this)}/>
-                <View style={styles.separator} />
+                {header}
+                <View style={[styles.separator,{marginTop:10}]} />
+                <View style={[styles.jobTitle,{height:30}]}>
+                    <Text style={styles.titleText}>{this.props.selectedData.title}</Text>
+                </View>
                 <ScrollView style={styles.scrollView}
                 contentInset={{bottom:49}}
                 automaticallyAdjustContentInsets={false}>
                     <View style={{flex:1}}>
-                        <View style={styles.jobTitle}>
-                            <Text style={styles.titleText}>{this.props.selectedData.title}</Text>
+
+                        <View style={styles.separator} />
+                        <View style={styles.infoBox}>
+                            <Text style={styles.infoTitle}>Position</Text>
                         </View>
                         <View style={styles.separator} />
+                        <View style={styles.infoValueBox}>
+                            <Text style={styles.infoValue}>{this.props.selectedData.position}</Text>
+                            <Text style={[styles.infoValue,{color:"#0d47a1"}]}>{this.props.selectedData.experience}</Text>
+                        </View>
+                        <View style={styles.separator} />
+                            <View style={styles.infoBox}>
+                                <Text style={styles.infoTitle}>Role</Text>
+                            </View>
+                        <View style={styles.separator} />
+                        <View style={styles.infoValueBox}>
+                            {role}
+                        </View>
+
+                        {technicalMustHave?
+                            <View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoBox}>
+                                    <Text style={styles.infoTitle}>Technical Skills</Text>
+                                </View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoValueBox}>
+                                    {technicalMustHave}
+                                </View>
+                            </View>
+
+                        :   <Text>{''}</Text>}
+                        {technicalNiceToHave?
+                            <View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoBox}>
+                                    <Text style={styles.infoTitle}>Nice to Have Skills</Text>
+                                </View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoValueBox}>
+                                    {technicalNiceToHave}
+                                </View>
+                            </View>
+                        :<Text>{''}</Text>}
+
+                        {nonTechnical?
+                            <View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoBox}>
+                                    <Text style={styles.infoTitle}>Non Technical Skills</Text>
+                                </View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoValueBox}>
+                                    {nonTechnical}
+                                </View>
+                            </View>
+                        :<Text>{''}</Text>}
+
+                        {notes ?
+                            <View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoBox}>
+                                    <Text style={styles.infoTitle}>Note</Text>
+                                </View>
+                                <View style={styles.separator} />
+                                <View style={styles.infoValueBox}>
+                                    {notes}
+                                </View>
+                             </View>
+                        :<Text>{''}</Text>}
+
                     </View>
                 </ScrollView>
-                {this.state.shareOpen ?
-                <View style={styles.masking} />
-                :<Text>{''}</Text>}
+
                 {this.state.shareOpen ?
 
 
@@ -156,6 +294,9 @@ class VacanciesDetail extends React.Component{
                     </Animated.View>
 
                 :<Text>{''}</Text>}
+                {this.state.mask
+                    ? <Mask />
+                :<Text>{''}</Text>}
 
             </View>
         );
@@ -171,17 +312,32 @@ var styles= StyleSheet.create({
     separator: {
         height: 0.5,
         backgroundColor: '#dddddd',
-        marginTop:10
+        marginTop:0
     },
     jobTitle:{
+        backgroundColor:"#78909c",
+        padding:5
+    },
+    infoBox:{
+        padding:10,
         flex:1,
-        flexDirection:'row',
-        justifyContent:'center',
-        padding:10
+        flexDirection:'row'
+    },
+    infoValueBox:{
+        padding:10,
+        flex:1,
+    },
+    infoTitle:{
+        fontSize:15,
+    },
+    infoValue:{
+      fontSize:15,
+      color:'#9e9e9e'
     },
     titleText:{
         fontSize:15,
-        fontWeight:'400'
+        color:"#FFFFFF",
+        textAlign:'center',
     },
     shareContainer:{
         position:'absolute',
@@ -212,8 +368,8 @@ var styles= StyleSheet.create({
 
     },
     cancelText:{
-        fontSize:15,
-        color:"#2196f3",
+        fontSize:18,
+        color:"#2979ff",
         alignSelf:'center'
     },
     shareOptionScrollView:{

@@ -10,7 +10,8 @@ var {
     Text,
     ScrollView,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    LayoutAnimation
     } = React;
 
 var Dimensions = require('Dimensions');
@@ -130,6 +131,7 @@ class MyLeaveFilterScreen extends React.Component{
 
         };
         this.props.onModifiedFilter(this.modifiedFilterState);
+        LayoutAnimation.easeInEaseOut();
         this.setState({modifiedFilterState: this.modifiedFilterState});
 
         console.log("pendingApprovalStatus:param "+this.modifiedFilterState.pendingApproval);

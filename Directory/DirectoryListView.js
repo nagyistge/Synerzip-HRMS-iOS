@@ -46,13 +46,16 @@ class DirectoryListView extends React.Component{
         }
     }
     componentWillReceiveProps(nextProps){
-        console.log("Receieving Props in List View::::::::::::::::::::::::");
+        console.log("Receieving Props in List View::::::::::::::::::::::::"+nextProps.directoryDataList.data);
         if(nextProps.selectedObj != null || !this.props.directoryLoaded) {
-            this.calculateCanLoadMore(nextProps.directoryDataList);
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.directoryDataList.data),
+            if (nextProps.directoryDataList.data) {
 
-            });
+                this.calculateCanLoadMore(nextProps.directoryDataList);
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(nextProps.directoryDataList.data),
+
+                });
+            }
         }
 
     }
